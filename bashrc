@@ -111,4 +111,3 @@ alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ F
 alias emacs='emacs -nw'
 alias 1P='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/1Password/1Password.exe &'
 alias svag='ssh -X -p 2222 localhost'
-alias naut='nautilus --no-desktop'
