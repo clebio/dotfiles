@@ -36,7 +36,7 @@ main = do
 	, ((0, xF86XK_MonBrightnessDown),    spawn "xbacklight -10")
 	, ((0, xF86XK_AudioLowerVolume),    spawn "pactl set-sink-volume 0 -- -10%")
 	, ((0, xF86XK_AudioRaiseVolume),    spawn "pactl set-sink-volume 0 -- +10%")
-	, ((mod4Mask .|. shiftMask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
+	, ((mod4Mask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
 	, ((mod4Mask .|. shiftMask, xK_s),   spawn "xscreensaver-command -l; pmi action suspend")
 	, ((mod4Mask, xK_F1),   spawn "chromium-browser")
 	, ((mod4Mask, xK_F2),   spawn "thunderbird")
