@@ -36,10 +36,12 @@ main = do
 	, ((0, xF86XK_MonBrightnessDown),    spawn "xbacklight -10")
 	, ((0, xF86XK_AudioLowerVolume),    spawn "pactl set-sink-volume 0 -- -10%")
 	, ((0, xF86XK_AudioRaiseVolume),    spawn "pactl set-sink-volume 0 -- +10%")
-	, ((mod4Mask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
+	, ((0, xF86XK_AudioMute),    spawn "~/dotfiles/pavolcontrol toggle")
+	, ((mod4Mask .|. shiftMask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
 	, ((mod4Mask .|. shiftMask, xK_s),   spawn "xscreensaver-command -l; pmi action suspend")
 	, ((mod4Mask, xK_F1),   spawn "chromium-browser")
 	, ((mod4Mask, xK_F2),   spawn "thunderbird")
+	, ((mod4Mask, xK_F3),   spawn "nautilus --no-desktop")
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
 	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout
 	]
