@@ -42,6 +42,7 @@ main = do
 	, ((mod4Mask, xK_F1),   spawn "chromium-browser")
 	, ((mod4Mask, xK_F2),   spawn "thunderbird")
 	, ((mod4Mask, xK_F3),   spawn "nautilus --no-desktop")
+	, ((mod4Mask, xK_F4),   spawn "VBoxManage startvm SS9_ghost")
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
 	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout
 	]
