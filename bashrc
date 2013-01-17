@@ -1,3 +1,4 @@
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
@@ -54,6 +55,7 @@ if [ -n "$force_color_prompt" ]; then
 fi
 
 if [ "$color_prompt" = yes ]; then
+   # unicode for return value visualisation
     PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
 else
     PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
@@ -107,8 +109,9 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 PATH=$PATH:/opt/vagrant/bin
+
+
 alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe >& /dev/null &'
 alias emacs='emacs -nw'
 alias 1P='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/1Password/1Password.exe &'
 alias svag='ssh -X -p 2222 localhost'
-alias naut='nautilus --no-desktop'

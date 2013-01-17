@@ -20,4 +20,4 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
-alias naut='nautilus --no-desktop'
+alias naud='nautilus --no-desktop'
