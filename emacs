@@ -1,4 +1,3 @@
-(load "~/.emacs.d/ess-12.09/lisp/ess-site")
 (require 'quack)
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
@@ -12,3 +11,4 @@
   ;; Your init file should contain only one such instance.
   ;; If there is more than one, they won't work right.
  )
+(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
