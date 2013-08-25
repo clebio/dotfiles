@@ -1,23 +1,20 @@
-Config { font = "-*-Fixed-Bold-R-Normal-*-13-*-*-*-*-*-*-*"
-       , bgColor = "black"
+Config { font = "-*-Fixed-Bold-R-Normal-*-14-*-*-*-*-*-*-*"
+       , bgColor = "#333333"
        , fgColor = "grey"
        , position = TopW L 90
-       , commands = [ Run Weather "KMKC" ["-t"," <tempF> F","-L","64","-H","77","--normal","green","--high","red","--low","lightblue"] 36000
-                    , Run BatteryP ["BAT1", "ADP1"] 
-              ["-t", "Batt: <left>%, <timeleft> remaining.",
-               "-L", "10", "-H", "80", "-p", "3",
-	       "--", "-c", "energy_full",
-               "-O", "<fc=green>On</fc> - ", "-o", "(discharging)",
-	       "-L", "-15", "-H", "-5",
-               "-l", "red", "-m", "blue", "-h", "green", "-p", "white"]
-              600
+       , commands = [ Run Weather "KMKC" ["-t","<tempF>°","-L","64","-H","77","--normal","green","--high","orange","--low","lightblue"] 36000
+                    , Run BatteryP ["BAT1", "ADP1"] ["-t", "Battery: <left>%, <timeleft> remaining.",
+               			  "-L", "10", "-H", "80", "-p", "3",
+	       			  "--", "-c", "energy_full",
+               			  "-O", "<fc=green>On</fc> - ", "-o", "(discharging)",
+               			  "-l", "red", "-m", "orange", "-h", "green", "-p", "blue"]
+              			  600
                     , Run Cpu ["-L","3","-H","85","--normal","green","--high","red"] 10
-                    , Run Memory ["-t","Mem: <usedratio>%"] 10
-                    , Run Swap [] 10
+		    , Run Com "/home/caleb/dotfiles/volume.sh" [] "volumeScript" 10
                     , Run Date "%a %b %_d %l:%M" "date" 10
                     , Run StdinReader
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %cpu% %battery% %memory% * %swap%    <fc=#ee9a00>%date%</fc> %KMKC%"
+       , template = "%StdinReader% }{ <fc=#009900>%cpu%</fc> %battery% %volumeScript% <fc=#5555bb>%date%</fc> %KMKC%"
        }
