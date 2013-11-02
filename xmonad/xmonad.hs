@@ -47,5 +47,6 @@ main = do
 	, ((mod4Mask, xK_n),   spawn "nautilus --no-desktop")
 	, ((mod4Mask, xK_w),   spawn "VBoxManage startvm SS9_ghost") -- _W_indows
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
+	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P")
 	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout
 	]

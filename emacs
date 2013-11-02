@@ -12,3 +12,13 @@
   ;; If there is more than one, they won't work right.
  )
 (autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
+(load-file "~/.emacs.d/python/epy-init.el")
+
+;; http://kwbeam.com/index.html
+(require 'python-mode)
+
+(load-file "/usr/share/emacs/site-lisp/pymacs/pymacs.el")
+(require 'pymacs)
+;; https://bitbucket.org/agr/ropemacs/src
+(pymacs-load "ropemacs" "rope-")

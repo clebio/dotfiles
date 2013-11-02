@@ -16,5 +16,5 @@ Config { font = "-*-Fixed-Bold-R-Normal-*-14-*-*-*-*-*-*-*"
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ <fc=#009900>%cpu%</fc> %battery% %volumeScript% <fc=#5555bb>%date%</fc> %KMKC%"
+       , template = "%StdinReader% }{ <fc=#009900>%cpu%</fc> %battery% %volumeScript% <fc=#9999bb>%date%</fc> %KMKC%"
        }
