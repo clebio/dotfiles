@@ -22,3 +22,15 @@
 (require 'pymacs)
 ;; https://bitbucket.org/agr/ropemacs/src
 (pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-shortcuts nil)
+
+;; http://www.jesshamrick.com/2012/09/18/emacs-as-a-python-ide/
+; Use ipython as python interpreter
+(setq-default py-shell-name "ipython")
+(setq-default py-which-bufname "IPython")
+; don't show the startup screen
+(setq inhibit-startup-screen t)
+; don't show the menu bar
+(menu-bar-mode nil)
+; number of characters until the fill column
+(setq fill-column 70)
