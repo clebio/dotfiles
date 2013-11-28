@@ -1,3 +1,7 @@
+;; ESS (Emacs Speaks Statistics, for R integration)
+;; http://ess.r-project.org/index.php?Section=home
+(require 'ess-site)
+
 (require 'quack)
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
