@@ -1,6 +1,11 @@
 ;; ESS (Emacs Speaks Statistics, for R integration)
 ;; http://ess.r-project.org/index.php?Section=home
 (require 'ess-site)
+;; disable underscore substitution (to ' <- ' )
+(ess-toggle-underscore nil)
+
+(global-set-key (kbd "M-]") 'next-buffer)
+(global-set-key (kbd "M-[") 'previous-buffer)
 
 (require 'quack)
 (custom-set-variables
