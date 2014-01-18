@@ -7,6 +7,7 @@ fi
 feh --bg-fill $(find /data/Pictures/ -name "*.JPG" -print | sort -R | head -n 1) &
 xscreensaver -no-splash &
 trayer --edge top --align right --SetDockType true --SetPartialStrut false --widthtype percent --width 10 --expand true --transparent true --tint 0x191970 --height 18 &
+bluetooth-applet &
 ~/.dropbox-dist/dropboxd &
 #gajim &
 synkron &
