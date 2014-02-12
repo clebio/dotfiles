@@ -28,25 +28,32 @@ main = do
         , layoutHook = avoidStruts ( layoutHook defaultConfig ) ||| (noBorders Full)
         , logHook = dynamicLogWithPP xmobarPP 
                         { ppOutput = hPutStrLn xmproc
-                        , ppTitle = xmobarColor "green" "" . shorten 50
+                        , ppTitle = xmobarColor "green" "" . shorten 150
                         }
 	, modMask = mod4Mask
 	, startupHook = takeTopFocus >> setWMName "LG3D"
 	} `additionalKeys`
         [ ((controlMask, xK_Print), spawn "sleep 0.1; scrot -s")
         , ((0, xK_Print), spawn "scrot")
-	, ((0, xF86XK_MonBrightnessUp),    spawn "xbacklight +10")
-	, ((0, xF86XK_MonBrightnessDown),    spawn "xbacklight -10")
-	, ((0, xF86XK_AudioLowerVolume),    spawn "pactl set-sink-volume 0 -- -10%")
-	, ((0, xF86XK_AudioRaiseVolume),    spawn "pactl set-sink-volume 0 -- +10%")
-	, ((0, xF86XK_AudioMute),    spawn "~/dotfiles/pavolcontrol toggle")
+	, ((controlMask, xK_F12),    spawn "xbacklight +10")
+	, ((controlMask, xK_F11),    spawn "xbacklight -10")
+	, ((controlMask, xK_F2),    spawn "pactl set-sink-volume 1 -- -10%")
+	, ((controlMask, xK_F3),    spawn "pactl set-sink-volume 1 -- +10%")
+	, ((controlMask, xK_F1),    spawn "~/dotfiles/pavolcontrol toggle")
 	, ((mod4Mask .|. shiftMask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
-	, ((mod4Mask .|. shiftMask, xK_s),   spawn "xscreensaver-command -l; pmi action suspend")
-	, ((mod4Mask, xK_c),   spawn "google-chrome")
+	, ((mod4Mask .|. shiftMask, xK_x),   spawn "xscreensaver-command -l; ~/bin/suspend.sh")
+	, ((mod4Mask, xK_c),   spawn "chromium-browser")
+	, ((mod4Mask, xK_f),   spawn "firefox")
 	, ((mod4Mask, xK_m),   spawn "thunderbird")
 	, ((mod4Mask, xK_n),   spawn "nautilus --no-desktop")
-	, ((mod4Mask, xK_w),   spawn "VBoxManage startvm SS9_ghost") -- _W_indows
+	, ((mod4Mask, xK_w),   spawn "VBoxManage startvm 'Windows 7'") -- _W_indows
+	, ((mod4Mask .|. shiftMask, xK_w),   spawn "VBoxManage controlvm  'Windows 7' savestate")
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
-	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P")
+	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P.sh")
 	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout
+	, ((mod4Mask .|. shiftMask, xK_d), spawn "~/dotfiles/lenovo-rotate.sh left")
+	, ((mod4Mask .|. shiftMask, xK_w), spawn "~/dotfiles/lenovo-rotate.sh inverted")
+	, ((mod4Mask .|. shiftMask, xK_a), spawn "~/dotfiles/lenovo-rotate.sh right")
+	, ((mod4Mask .|. shiftMask, xK_s), spawn "~/dotfiles/lenovo-rotate.sh normal")
+	, ((mod4Mask, xK_o), spawn "~/dotfiles/lenovo-rotation-cycle.sh")
 	]
