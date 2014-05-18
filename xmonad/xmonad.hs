@@ -43,11 +43,11 @@ main = do
 	, ((mod4Mask .|. shiftMask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
 	, ((mod4Mask .|. shiftMask, xK_x),   spawn "xscreensaver-command -l; ~/bin/suspend.sh")
 	, ((mod4Mask, xK_c),   spawn "chromium-browser")
-	, ((mod4Mask, xK_f),   spawn "firefox")
+	, ((mod4Mask, xK_b),   spawn "firefox")
 	, ((mod4Mask, xK_m),   spawn "thunderbird")
 	, ((mod4Mask, xK_n),   spawn "nautilus --no-desktop")
-	, ((mod4Mask, xK_w),   spawn "VBoxManage startvm 'Windows 7'") -- _W_indows
-	, ((mod4Mask .|. shiftMask, xK_w),   spawn "VBoxManage controlvm  'Windows 7' savestate")
+	, ((mod4Mask .|. controlMask, xK_w),   spawn "VBoxManage startvm 'Windows 7'") -- _W_indows
+	, ((mod4Mask, xK_w),   spawn "VBoxManage controlvm  'Windows 7' savestate")
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
 	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P.sh")
 	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout

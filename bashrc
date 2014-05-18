@@ -113,5 +113,18 @@ PATH=$PATH:/opt/vagrant/bin
 
 alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe >& /dev/null &'
 alias emacs='emacs -nw'
-alias 1P='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/1Password/1Password.exe &'
 alias svag='ssh -X -p 2222 localhost'
+
+# This should always be run last either in .bashrc or as a script in .bashrc.d
+if [[ -z "$TMUX" ]]; then
+    tmux has-session &> /dev/null
+    if [ $? -eq 1 ]; then
+      exec tmux new
+
+      exit
+    else
+      exec tmux attach
+      exit
+    fi
+fi
+

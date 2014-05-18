@@ -1,21 +1,21 @@
 #!/bin/bash
-set -x 
-foo=`xrandr | grep LVDS`
+#set -x 
+foo=`xrandr | grep eDP1`
 lvds=`echo $foo | cut -d' ' -f1`
-size=`echo $foo | cut -d' ' -f3 | cut -d '+' -f1`
-max_size=`xrandr | grep -A 1 LVDS | tail -1 | sed 's/   //g' | cut -d ' ' -f1`
+size=`echo $foo | cut -d' ' -f4 | cut -d '+' -f1`
+max_size=`xrandr | grep -A 1 eDP1 | tail -1 | sed 's/[ ]+/ /g' | cut -d ' ' -f2`
 
 if   [ $1 ]
 then
-    xrandr --output $lvds --mode $size --scale ${1}x${1}
+    xrandr --output $lvds --scale ${1}x${1}
 elif [ $2 ]
 then
-    xrandr --output $lvds --mode $size --scale ${1}x${2}
+    xrandr --output $lvds --scale ${1}x${2}
 elif [ "$size" == "$max_size" ]
 then
-    xrandr --output $lvds --mode $size --scale 1.15x1.15
+    xrandr --output $lvds --scale 1.15x1.15
 else
-    xrandr --output $lvds --mode $max_size --scale 1x1
+    xrandr --output $lvds --scale 1x1
 fi
  
 echo Previous scaled resolution: $size
