@@ -29,29 +29,18 @@
 (global-set-key [remap next-buffer] 'next-buffer-nostar)
 (global-set-key (kbd "M-]") 'next-buffer)
 
-(require 'quack)
-(custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- '(quack-programs (quote ("scm" "bigloo" "csi" "csi -hygienic" "gosh" "gsi" "gsi ~~/syntax-case.scm -" "guile" "kawa" "mit-scheme" "mred -z" "mzscheme" "mzscheme -il r6rs" "mzscheme -il typed-scheme" "mzscheme -M errortrace" "mzscheme3m" "mzschemecgc" "rs" "scheme" "scheme48" "scsh" "sisc" "stklos" "sxi"))))
-(custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
- )
-(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
+;(require 'quack)
+;(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t) (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
-(load-file "~/.emacs.d/emacs-for-python/epy-init.el")
+(load "~/.emacs.d/pymacs.el")
+(require 'pymacs)
+;(load-file "~/.emacs.d/emacs-for-python/epy-init.el")
 (setq skeleton-pair nil)
 
 ;; http://kwbeam.com/index.html
-(require 'python-mode)
+;(load-file ".emacs.d/python-mode/python-mode.el")
+;(require 'python-mode)
 
-(load-file "/usr/share/emacs/site-lisp/pymacs/pymacs.el")
-(require 'pymacs)
 ;; https://bitbucket.org/agr/ropemacs/src
 (pymacs-load "ropemacs" "rope-")
 (setq ropemacs-enable-shortcuts nil)
@@ -71,4 +60,12 @@
 (define-globalized-minor-mode
  global-fci-mode fci-mode (lambda () (fci-mode 1)))
 (global-fci-mode t)
+(longlines-mode t)
+(show-paren-mode 1) ; turn on paren match highlighting
+(setq show-paren-style 'expression) ; highlight entire bracket expression
+(column-number-mode 1) ; show cursor's column
+(global-visual-line-mode 1) ; 1 for on, 0 for off.
 
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(ido-mode 1)
