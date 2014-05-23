@@ -1,8 +1,8 @@
 ;; ESS (Emacs Speaks Statistics, for R integration)
 ;; http://ess.r-project.org/index.php?Section=home
-;;(require 'ess-site)
+;(require 'ess-site)
 ;; disable underscore substitution (to ' <- ' )
-;;(ess-toggle-underscore nil)
+;(ess-toggle-underscore nil)
 
 ;; Define new 'next/previous-buffer' commands that skip the
 ;; *Asterisk* buffers
@@ -16,7 +16,7 @@
   (when (string= "*Messages*" (buffer-name))
       (previous-buffer)))
 (global-set-key [remap previous-buffer] 'previous-buffer-nostar)
-(global-set-key (kbd "M-[") 'previous-buffer)
+(global-set-key (kbd "M-]") 'previous-buffer)
 
 (defun next-buffer-nostar ()
   "next-buffer, skip *Asterisk* buffers"
@@ -27,7 +27,7 @@
   (when (string= "*Pymacs*" (buffer-name))
       (next-buffer)))
 (global-set-key [remap next-buffer] 'next-buffer-nostar)
-(global-set-key (kbd "M-]") 'next-buffer)
+(global-set-key (kbd "M-[") 'next-buffer)
 
 ;(require 'quack)
 (autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
