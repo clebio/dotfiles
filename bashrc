@@ -110,16 +110,21 @@ fi
 
 PATH=$PATH:/opt/vagrant/bin
 
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 
 alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe >& /dev/null &'
 alias emacs='emacs -nw'
 alias svag='ssh -X -p 2222 localhost'
+alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
+eval `dircolors /home/caleb/dotfiles/dircolors-solarized/dircolors.ansi-light`
 # This should always be run last either in .bashrc or as a script in .bashrc.d
 if [[ -z "$TMUX" ]]; then
     tmux has-session &> /dev/null
     if [ $? -eq 1 ]; then
-      exec tmux new
+      exec tmux -2 new
 
       exit
     else

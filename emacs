@@ -3,9 +3,20 @@
 ;(require 'ess-site)
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
+(menu-bar-mode -1)
 
 ;; Define new 'next/previous-buffer' commands that skip the
 ;; *Asterisk* buffers
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+(package-initialize)
+(add-hook 'python-mode-hook 'jedi:setup)
+(require 'python-environment)
 
 (defun previous-buffer-nostar ()
   "previous-buffer, skip *Asterisk* buffers"
@@ -15,6 +26,21 @@
       (previous-buffer))
   (when (string= "*Messages*" (buffer-name))
       (previous-buffer)))
+
+
+(require 'virtualenvwrapper)
+(venv-initialize-interactive-shells) ;; if you want interactive shell support
+(venv-initialize-eshell) ;; if you want eshell support
+(setq venv-location "/home/caleb/.virtualenvs/")
+
+; use IPython
+(setq python-shell-interpreter "ipython")
+
+; switch to the interpreter after executing code
+(setq py-shell-switch-buffers-on-execute-p t)
+(setq py-switch-buffers-on-execute-p t)
+(setq py-smart-indentation t)
+
 (global-set-key [remap previous-buffer] 'previous-buffer-nostar)
 (global-set-key (kbd "M-]") 'previous-buffer)
 
@@ -84,4 +110,3 @@
 
 ;; activate minor whitespace mode when in python mode
 (add-hook 'python-mode-hook 'whitespace-mode)
-
