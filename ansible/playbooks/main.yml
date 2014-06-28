@@ -1,0 +1,18 @@
+- hosts: all
+  vars:
+    packages:
+      - docker.io
+      - easystroke
+      - gimp
+      - gksu
+      - gpointing-device-settings
+      - libappindicator1
+      - linux-firmware
+      - lupin-casper
+      - nautilus
+      - python-pip
+      - unity-2d
+      - vim
+  
+  tasks:
+    - include: tasks/ubuntu.yml
