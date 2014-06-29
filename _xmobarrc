@@ -10,7 +10,7 @@ Config { font = "xft:Cambria-11"
                			  "-l", "red", "-m", "orange", "-h", "lightgreen", "-p", "blue"]
               			  600
                     , Run Cpu ["-L","3","-H","85","--normal","green","--high","red"] 10
-		    , Run Com "/home/caleb/dotfiles/volume.sh" [] "volumeScript" 10
+		    , Run Com "/home/caleb/bin/volume.sh" [] "volumeScript" 10
                     , Run Date "%a %b %_d %l:%M" "date" 10
                     , Run StdinReader
                     ]

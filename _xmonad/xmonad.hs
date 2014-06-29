@@ -37,9 +37,9 @@ main = do
         , ((0, xK_Print), spawn "scrot")
 	, ((controlMask, xK_F3),    spawn "xbacklight +10")
 	, ((controlMask, xK_F2),    spawn "xbacklight -10")
-	, ((controlMask, xK_F7),    spawn "pactl set-sink-volume 0 -- -10%")
-	, ((controlMask, xK_F8),    spawn "pactl set-sink-volume 0 -- +10%")
-	, ((controlMask, xK_F6),    spawn "~/dotfiles/pavolcontrol toggle")
+	, ((controlMask, xK_F7),    spawn "pactl set-sink-volume 1 -- -10%")
+	, ((controlMask, xK_F8),    spawn "pactl set-sink-volume 1 -- +10%")
+	, ((controlMask, xK_F6),    spawn "~/bin/pavolcontrol.sh toggle")
 	, ((mod4Mask .|. shiftMask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
 	, ((mod4Mask .|. shiftMask, xK_x),   spawn "xscreensaver-command -l; ~/bin/suspend.sh")
 	, ((mod4Mask, xK_c),   spawn "chromium-browser")
@@ -51,9 +51,9 @@ main = do
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
 	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P")
 	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout
-	, ((mod4Mask .|. shiftMask, xK_d), spawn "~/dotfiles/lenovo-rotate.sh left")
-	, ((mod4Mask .|. shiftMask, xK_w), spawn "~/dotfiles/lenovo-rotate.sh inverted")
-	, ((mod4Mask .|. shiftMask, xK_a), spawn "~/dotfiles/lenovo-rotate.sh right")
-	, ((mod4Mask .|. shiftMask, xK_s), spawn "~/dotfiles/lenovo-rotate.sh normal")
-	, ((mod4Mask, xK_o), spawn "~/dotfiles/lenovo-rotation-cycle.sh")
+	, ((mod4Mask .|. shiftMask, xK_d), spawn "~/bin/lenovo-rotate.sh left")
+	, ((mod4Mask .|. shiftMask, xK_w), spawn "~/bin/lenovo-rotate.sh inverted")
+	, ((mod4Mask .|. shiftMask, xK_a), spawn "~/bin/lenovo-rotate.sh right")
+	, ((mod4Mask .|. shiftMask, xK_s), spawn "~/bin/lenovo-rotate.sh normal")
+	, ((mod4Mask, xK_o), spawn "~/bin/lenovo-rotation-cycle.sh")
 	]
