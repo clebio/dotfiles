@@ -2,9 +2,18 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 :let mapleader = ","
-map <C-n> :NERDTreeToggle<CR>
+map <C-b> :NERDTreeToggle<CR>
+map gf :bn<CR>
+map gb :bp<CR>
+nmap s :w<CR>
+nmap <C-w> :bw<CR>
+nmap <leader>q :quit<CR>
+
 let NERDTreeQuitOnOpen = 1
 set colorcolumn=80
+
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
 
 " http://stackoverflow.com/a/21323445
 " Only do this part when compiled with support for autocommands.
@@ -45,6 +54,15 @@ Bundle 'ervandew/supertab'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'altercation/vim-colors-solarized'
+
+" Don't show docstring window via jedi-vim
+autocmd FileType python setlocal completeopt-=preview
+
+" Cycle jedi-vim top-down
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" Don't auto-suggest method signatures
+let g:jedi#show_call_signatures = 0
 
 syntax enable
 set t_Co=16
