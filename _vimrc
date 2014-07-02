@@ -12,6 +12,9 @@ nmap s :w<CR>
 nmap <C-q> :bw<CR>
 nmap <leader>q :quit<CR>
 
+filetype plugin on
+set omnifunc=syntaxcomplete#Complete
+
 " http://stackoverflow.com/a/21323445
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
@@ -55,6 +58,15 @@ Bundle 'vim-scripts/YankRing.vim'
 
 let g:ctrlp_map = '<C-o>'
 let g:ctrlp_cmd = 'CtrlP'
+
+" Don't show docstring window via jedi-vim
+autocmd FileType python setlocal completeopt-=preview
+
+" Cycle jedi-vim top-down
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" Don't auto-suggest method signatures
+let g:jedi#show_call_signatures = 0
 
 syntax enable
 set t_Co=16
