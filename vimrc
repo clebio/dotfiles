@@ -2,9 +2,15 @@ set nocompatible              " be iMproved, required
 filetype off                  " required
 
 :let mapleader = ","
-map <C-n> :NERDTreeToggle<CR>
 let NERDTreeQuitOnOpen = 1
 set colorcolumn=80
+
+map <C-b> :NERDTreeToggle<CR>
+map gf :bn<CR>
+map gb :bp<CR>
+nmap s :w<CR>
+nmap <C-q> :bw<CR>
+nmap <leader>q :quit<CR>
 
 " http://stackoverflow.com/a/21323445
 " Only do this part when compiled with support for autocommands.
@@ -37,7 +43,7 @@ Bundle 'gmarik/vundle'
 
 Bundle 'tpope/vim-fugitive'
 Bundle 'kien/ctrlp.vim'
-Bundle 'croaky/vim-colors-github'
+"Bundle 'croaky/vim-colors-github'
 Bundle 'nvie/vim-flake8'
 Bundle 'rking/ag.vim'
 Bundle 'tpope/vim-markdown'
@@ -45,6 +51,10 @@ Bundle 'ervandew/supertab'
 Bundle 'davidhalter/jedi-vim'
 Bundle 'scrooloose/nerdtree'
 Bundle 'altercation/vim-colors-solarized'
+Bundle 'vim-scripts/YankRing.vim'
+
+let g:ctrlp_map = '<C-o>'
+let g:ctrlp_cmd = 'CtrlP'
 
 syntax enable
 set t_Co=16
