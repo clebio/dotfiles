@@ -1,4 +1,3 @@
-shttps://apps.alightanalytics.com/alight/nessus/blob/stubbing-and-mocking/nessus/tests/test_mailchimp_puller.py#L73et nocompatible              " be iMproved, required
 filetype off                  " required
 
 :let mapleader = ","
