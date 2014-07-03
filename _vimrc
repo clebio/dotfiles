@@ -1,4 +1,4 @@
-set nocompatible              " be iMproved, required
+shttps://apps.alightanalytics.com/alight/nessus/blob/stubbing-and-mocking/nessus/tests/test_mailchimp_puller.py#L73et nocompatible              " be iMproved, required
 filetype off                  " required
 
 :let mapleader = ","
@@ -58,6 +58,15 @@ Bundle 'vim-scripts/YankRing.vim'
 
 let g:ctrlp_map = '<C-o>'
 let g:ctrlp_cmd = 'CtrlP'
+
+" Don't show docstring window via jedi-vim
+autocmd FileType python setlocal completeopt-=preview
+
+" Cycle jedi-vim top-down
+let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" Don't auto-suggest method signatures
+let g:jedi#show_call_signatures = 0
 
 " Don't show docstring window via jedi-vim
 autocmd FileType python setlocal completeopt-=preview
