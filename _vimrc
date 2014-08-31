@@ -4,12 +4,22 @@ filetype off                  " required
 let NERDTreeQuitOnOpen = 1
 set colorcolumn=80
 
+" Line numbers
+nmap <C-N><C-N> :set invnumber<CR>
+set number
+
 map <C-b> :NERDTreeToggle<CR>
-map gf :bn<CR>
-map gb :bp<CR>
+map gb :bn<CR>
+map gf :bp<CR>
 nmap s :w<CR>
-nmap <C-q> :bw<CR>
-nmap <leader>q :quit<CR>
+nmap <C-c> :bprevious<CR>:bdelete #<CR>
+nmap <leader>q :qall<CR>
+
+nnoremap <C-V> <C-W>v
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 filetype plugin on
 set omnifunc=syntaxcomplete#Complete
@@ -82,5 +92,17 @@ set background=light
 let g:solarized_termcolors=256
 colorscheme solarized
 
+" Trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+endfunction
+autocmd BufWritePre     *.py :call TrimWhiteSpace()
 autocmd FileType python setlocal completeopt-=preview
 au BufRead,BufNewFile *.md set filetype=markdown
