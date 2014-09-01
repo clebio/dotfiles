@@ -4,19 +4,32 @@ set enc=utf-8
 
 :let mapleader = ","
 let NERDTreeQuitOnOpen = 1
-set colorcolumn=80
-highlight ColorColumn ctermbg=grey ctermfg=blue guibg=#592929
+map <leader>n :NERDTreeToggle<CR>
 
-"" Run Python code in ipython
-"" http://stackoverflow.com/questions/18948491/running-python-code-in-vim
-" autocmd Filetype Python nnoremap <buffer> <leader>z :!ipython %<CR>
+""""""""""""""""
+" Colros
+set colorcolumn=80
+highlight ColorColumn ctermbg=Blue ctermfg=White guibg=#592929
+" Highlight cursor row and column
+hi CursorLine cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
+hi CursorColumn cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
+
+hi Search cterm=NONE ctermfg=grey ctermbg=blue
+
+" Toggle with ',c'
+nnoremap <Leader>c :set cursorline! cursorcolumn!<CR>
+""""""""""""""
+
+" Don't use backups and swap files
+set nobackup
+set noswapfile " IMPORTANT: comment this line if you are working on a remote host
+set wildignore=*.swp,*.bak,*.pyc,*.class
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
      \ if line("'\"") > 0 && line("'\"") <= line("$") |
      \   exe "normal! g`\"" |
      \ endif
-
 
 " Smart way to move between windows
 map <C-j> <C-W>j
@@ -49,19 +62,10 @@ set ffs=unix,dos,mac
 "set lazyredraw
 
 " Highlight search results
-"set hlsearch
+set hlsearch
 
 " Makes search act like search in modern browsers
-"set incsearch
-
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
-func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
-endfunc
-autocmd BufWrite *.py :call DeleteTrailingWS()
-autocmd BufWrite *.coffee :call DeleteTrailingWS()
+set incsearch
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
@@ -79,17 +83,16 @@ map <leader>s? z=
 set number
 nmap <C-N><C-N> :set invnumber<CR>
 
-" Line numbers
-nmap <C-N><C-N> :set invnumber<CR>
-set number
-
 map <C-b> :NERDTreeToggle<CR>
+
+" Buffer management
 map gb :bn<CR>
 map gf :bp<CR>
 nmap s :w<CR>
 nmap <C-c> :bprevious<CR>:bdelete #<CR>
 nmap <leader>q :qall<CR>
 
+" Easier Vim splits
 nnoremap <C-V> <C-W>v
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -110,13 +113,10 @@ set expandtab       " Expand TABs to spaces.
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
-" alternatively, pass a path where Vundle should install bundles
-"let path = '~/some/path/here'
-"call vundle#rc(path)
 
 " let Vundle manage Vundle, required
 Bundle 'gmarik/vundle'
-
+" And other bundles
 Bundle 'tpope/vim-fugitive'
 Bundle 'kien/ctrlp.vim'
 "Bundle 'croaky/vim-colors-github'
@@ -129,25 +129,16 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'altercation/vim-colors-solarized'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'kchmck/vim-coffee-script'
-
+Bundle 'AndrewRadev/vim-eco'
+ 
+" Ctrl-P mappings
 let g:ctrlp_map = '<C-o>'
 let g:ctrlp_cmd = 'CtrlP'
 
 " Don't show docstring window via jedi-vim
 autocmd FileType python setlocal completeopt-=preview
-
 " Cycle jedi-vim top-down
 let g:SuperTabDefaultCompletionType = "<c-n>"
-
-" Don't auto-suggest method signatures
-let g:jedi#show_call_signatures = 0
-
-" Don't show docstring window via jedi-vim
-autocmd FileType python setlocal completeopt-=preview
-
-" Cycle jedi-vim top-down
-let g:SuperTabDefaultCompletionType = "<c-n>"
-
 " Don't auto-suggest method signatures
 let g:jedi#show_call_signatures = 0
 
@@ -167,6 +158,16 @@ if has("autocmd")
     autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
 endif
 
+""""""""""""""""""""
+" Whitespace utilities
+"
+" Delete trailing white space on save
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+
 " Trailing whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
@@ -178,6 +179,7 @@ autocmd BufWinLeave * call clearmatches()
 function! TrimWhiteSpace()
     %s/\s\+$//e
 endfunction
-autocmd BufWritePre     *.py :call TrimWhiteSpace()
-autocmd FileType python setlocal completeopt-=preview
+
+au BufRead,BufNewFile *.coffee set filetype=coffee
+au BufRead,BufNewFile *.coffee.md set filetype=coffee
 au BufRead,BufNewFile *.md set filetype=markdown
