@@ -5,6 +5,8 @@
 ;(ess-toggle-underscore nil)
 (menu-bar-mode -1)
 
+(setq-default abbrev-mode t)
+
 ;; Define new 'next/previous-buffer' commands that skip the
 ;; *Asterisk* buffers
 
@@ -59,7 +61,7 @@
 (autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
-(load "~/.emacs.d/pymacs.el")
+;(load "~/.emacs.d/pymacs.el")
 (require 'pymacs)
 ;(load-file "~/.emacs.d/emacs-for-python/epy-init.el")
 (setq skeleton-pair nil)
@@ -110,3 +112,29 @@
 
 ;; activate minor whitespace mode when in python mode
 (add-hook 'python-mode-hook 'whitespace-mode)
+
+;; don't make me write 'yes' to confirm
+(defalias 'yes-or-no-p 'y-or-n-p)
+(load-file "~/.emacs.d/quick-yes.el")
+
+;; C-w to kill current buffer
+;(global-set-key [(control w)] 'kill-this-buffer)
+
+;; neotree
+(add-to-list 'load-path "~/.emacs.d/neotree")
+(require 'neotree)
+(global-set-key (kbd "C-x t") 'neotree-toggle)
+
+;; window navigation
+(windmove-default-keybindings)
+(global-set-key (kbd "M-h") 'windmove-left)
+(global-set-key (kbd "M-l") 'windmove-right)
+(global-set-key (kbd "M-k") 'windmove-up)
+(global-set-key (kbd "M-j") 'windmove-down)
+
+;; SCM utils
+(defun mechanics ()
+  (interactive)
+  (run-scheme
+    "/home/caleb/scmutils/mit-scheme/bin/scheme --library /home/caleb/scmutils/mit-scheme/lib"
+  ))

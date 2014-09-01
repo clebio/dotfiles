@@ -1,5 +1,4 @@
 set nocompatible
-      console.log(tokens[currentToken].charCodeAt())
 filetype off                  " required
 set enc=utf-8
 

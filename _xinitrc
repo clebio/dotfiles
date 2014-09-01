@@ -1,1 +1,8 @@
-_xsessionrc
+#!/bin/bash
+eval `dbus-launch --auto-syntax`
+#setxkbmap -option ctrl:nocaps
+ 
+if [ -f $HOME/.Xdefaults ]; then
+  xrdb -merge $HOME/.Xdefaults
+fi
+
