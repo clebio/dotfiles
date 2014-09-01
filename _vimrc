@@ -1,4 +1,5 @@
 set nocompatible
+      console.log(tokens[currentToken].charCodeAt())
 filetype off                  " required
 set enc=utf-8
 
@@ -79,12 +80,22 @@ map <leader>s? z=
 set number
 nmap <C-N><C-N> :set invnumber<CR>
 
+" Line numbers
+nmap <C-N><C-N> :set invnumber<CR>
+set number
+
 map <C-b> :NERDTreeToggle<CR>
-map gf :bn<CR>
-map gb :bp<CR>
+map gb :bn<CR>
+map gf :bp<CR>
 nmap s :w<CR>
-map <C-c> :bw<CR>
-nmap <leader>q :quit<CR>
+nmap <C-c> :bprevious<CR>:bdelete #<CR>
+nmap <leader>q :qall<CR>
+
+nnoremap <C-V> <C-W>v
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
 
 set omnifunc=syntaxcomplete#Complete
 
@@ -157,5 +168,17 @@ if has("autocmd")
     autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
 endif
 
+" Trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+function! TrimWhiteSpace()
+    %s/\s\+$//e
+endfunction
+autocmd BufWritePre     *.py :call TrimWhiteSpace()
 autocmd FileType python setlocal completeopt-=preview
 au BufRead,BufNewFile *.md set filetype=markdown
