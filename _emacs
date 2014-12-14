@@ -18,6 +18,8 @@
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 (add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
+
 (require 'python-environment)
 
 (defun previous-buffer-nostar ()
@@ -62,7 +64,7 @@
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 ;(load "~/.emacs.d/pymacs.el")
-(require 'pymacs)
+;(require 'pymacs)
 ;(load-file "~/.emacs.d/emacs-for-python/epy-init.el")
 (setq skeleton-pair nil)
 
@@ -71,7 +73,7 @@
 ;(require 'python-mode)
 
 ;; https://bitbucket.org/agr/ropemacs/src
-(pymacs-load "ropemacs" "rope-")
+;(pymacs-load "ropemacs" "rope-")
 (setq ropemacs-enable-shortcuts nil)
 (setq ropemacs-local-prefix "C-c C-p")
 (setq ropemacs-enable-autoimport 't)
@@ -123,7 +125,7 @@
 ;; neotree
 (add-to-list 'load-path "~/.emacs.d/neotree")
 (require 'neotree)
-(global-set-key (kbd "C-x t") 'neotree-toggle)
+(global-set-key (kbd "C-t") 'neotree-toggle)
 
 ;; window navigation
 (windmove-default-keybindings)
@@ -138,3 +140,49 @@
   (run-scheme
     "/home/caleb/scmutils/mit-scheme/bin/scheme --library /home/caleb/scmutils/mit-scheme/lib"
   ))
+
+;; paredit
+;; http://www.emacswiki.org/ParEdit
+(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+
+(add-hook 'emacs-lisp-mode-hook
+	  (lambda ()
+	    (paredit-mode t)
+
+	    (turn-on-eldoc-mode)
+	    (eldoc-add-command
+	     'paredit-backward-delete
+	     'paredit-close-round)
+
+	    (local-set-key (kbd "RET") 'electrify-return-if-match)
+	    (eldoc-add-command 'electrify-return-if-match)
+
+	    (show-paren-mode t)))
+
+(defvar electrify-return-match
+  "[\]}\)\"]"
+  "If this regexp matches the text after the cursor, do an \"electric\"
+  return.")
+
+(defun electrify-return-if-match (arg)
+  "If the text after the cursor matches `electrify-return-match' then
+  open and indent an empty line between the cursor and the text.  Move the
+  cursor to the new line."
+  (interactive "P")
+  (let ((case-fold-search nil))
+    (if (looking-at electrify-return-match)
+	(save-excursion (newline-and-indent)))
+    (newline arg)
+    (indent-according-to-mode)))
+
+(global-set-key (kbd "RET") 'electrify-return-if-match)
+
+;; rainbow delimiters (http://www.emacswiki.org/emacs/RainbowDelimiters)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)

@@ -4,16 +4,20 @@ set enc=utf-8
 
 :let mapleader = ","
 let NERDTreeQuitOnOpen = 1
-map <leader>n :NERDTreeToggle<CR>
+
+
+""" Per-project Vim config
+
+if filereadable(".vim.custom")
+    so .vim.custom
+endif
 
 """"""""""""""""
 " Colros
-set colorcolumn=80
-highlight ColorColumn ctermbg=Blue ctermfg=White guibg=#592929
-" Highlight cursor row and column
-hi CursorLine cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
-hi CursorColumn cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
-
+"set colorcolumn=80
+highlight ColorColumn ctermbg=137 ctermfg=White guibg=#4499ff
+hi CursorLine cterm=NONE ctermbg=grey ctermfg=blue guibg=#2c2d27 guifg=white
+hi CursorColumn cterm=NONE ctermbg=grey ctermfg=246 guibg=#2c2d27 guifg=white
 hi Search cterm=NONE ctermfg=grey ctermbg=blue
 
 " Toggle with ',c'
@@ -77,12 +81,12 @@ map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Disable search highlight
+map <Leader>/ :nohlsearch<CR>
 
 " line numbers and toggle
-set number
 nmap <C-N><C-N> :set invnumber<CR>
-
 map <C-b> :NERDTreeToggle<CR>
 
 " Buffer management
@@ -144,8 +148,8 @@ let g:jedi#show_call_signatures = 0
 
 syntax enable
 set t_Co=256
-set background=light
-let g:solarized_termcolors=256
+"set background=light
+"let g:solarized_termcolors=256
 "colorscheme solarized
 
 " http://stackoverflow.com/a/21323445
