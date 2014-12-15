@@ -42,7 +42,7 @@
 (setq py-smart-indentation t)
 
 (global-set-key [remap previous-buffer] 'previous-buffer-nostar)
-(global-set-key (kbd "M-]") 'previous-buffer)
+(global-set-key (kbd "M-[") 'previous-buffer)
 
 (defun next-buffer-nostar ()
   "next-buffer, skip *Asterisk* buffers"
@@ -53,7 +53,7 @@
   (when (string= "*Pymacs*" (buffer-name))
       (next-buffer)))
 (global-set-key [remap next-buffer] 'next-buffer-nostar)
-(global-set-key (kbd "M-[") 'next-buffer)
+(global-set-key (kbd "M-]") 'next-buffer)
 
 ;(require 'quack)
 (autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
@@ -68,11 +68,11 @@
 ;(load-file ".emacs.d/python-mode/python-mode.el")
 ;(require 'python-mode)
 
-;; https://bitbucket.org/agr/ropemacs/src
-(pymacs-load "ropemacs" "rope-")
-(setq ropemacs-enable-shortcuts nil)
-(setq ropemacs-local-prefix "C-c C-p")
-(setq ropemacs-enable-autoimport 't)
+;; https://bitbucket.org/agr/ropeacs/src
+;(pymacs-load "ropemacs" "rope-")
+;(setq ropemacs-enable-shortcuts nil)
+;(setq ropemacs-local-prefix "C-c C-p")
+;(setq ropemacs-enable-autoimport 't)
 
 ;; http://www.jesshamrick.com/2012/09/18/emacs-as-a-python-ide/
 ; Use ipython as python interpreter
@@ -110,3 +110,14 @@
 
 ;; activate minor whitespace mode when in python mode
 (add-hook 'python-mode-hook 'whitespace-mode)
+
+(require 'neotree)
+(global-set-key (kbd "C-t") 'neotree-toggle)
+
+(load "~/.emacs.d/quick-yes.el")
+
+(global-set-key (kbd "M-j") 'split-window-horizontally)
+(global-set-key (kbd "M-h") 'split-window-vertically)
+(global-set-key (kbd "M-o") 'other-window)
+
+(global-set-key (kbd "M-g") 'goto-line)

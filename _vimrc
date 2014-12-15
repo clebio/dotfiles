@@ -8,7 +8,7 @@ set colorcolumn=80
 nmap <C-N><C-N> :set invnumber<CR>
 set number
 
-map <C-b> :NERDTreeToggle<CR>
+map <C-t> :NERDTreeToggle<CR>
 map gb :bn<CR>
 map gf :bp<CR>
 nmap s :w<CR>
@@ -88,7 +88,7 @@ let g:jedi#show_call_signatures = 0
 
 syntax enable
 set t_Co=16
-set background=light
+set background=dark
 let g:solarized_termcolors=256
 colorscheme solarized
 

@@ -110,18 +110,20 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-PATH=$PATH:/opt/vagrant/bin
+PATH=/usr/local/bin:/opt/vagrant/bin:$PATH
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
-alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe >& /dev/null &'
 alias emacs='emacs -nw'
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias vim='/usr/bin/vim'
 
-eval `dircolors /home/caleb/dotfiles/dircolors-solarized/dircolors.ansi-light`
+if [ -x /usr/bin/dircolors ]; then
+    eval `dircolors ~/dotfiles/dircolors-solarized/dircolors.ansi-dark`
+fi
 # This should always be run last either in .bashrc or as a script in .bashrc.d
 if [[ -z "$TMUX" ]]; then
     tmux has-session &> /dev/null
@@ -135,3 +137,7 @@ if [[ -z "$TMUX" ]]; then
     fi
 fi
 
+export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
+source /usr/local/bin/virtualenvwrapper.sh
+source ~/dotfiles/git-completion.bash
+export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
