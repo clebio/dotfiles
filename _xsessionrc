@@ -1,13 +1,15 @@
 #!/bin/bash
+
 setxkbmap -option ctrl:nocaps
+xmodmap -e 'keycode 133 = F13'
  
 if [ -f $HOME/.Xdefaults ]; then
   xrdb -merge $HOME/.Xdefaults
 fi
 
-feh --bg-fill $(find ~/Pictures/ -iname "*.JPG" -print | sort -R | head -n 1) &
-xscreensaver -no-splash &
-trayer --edge top --align right --SetDockType true --SetPartialStrut false --widthtype percent --width 10 --expand true --transparent true --tint 0x191970 --height 24 &
+#feh --bg-fill $(find ~/Pictures/ -iname "*.JPG" -print | sort -R | head -n 1) &
+#xscreensaver -no-splash &
+#trayer --edge top --align right --SetDockType true --SetPartialStrut false --widthtype percent --width 10 --expand true --transparent true --tint 0x555599 --height 24 &
 #bluetooth-applet &
 ~/.dropbox-dist/dropboxd &
 #gajim &
@@ -26,4 +28,4 @@ alias 1P='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/1Password/1Pass
 onboard &
 easystroke &
  
-exec xmonad
+#exec xmonad

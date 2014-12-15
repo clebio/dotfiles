@@ -1,1 +1,9 @@
-_xsessionrc
+#!/bin/bash
+eval `dbus-launch --auto-syntax`
+#setxkbmap -option ctrl:nocaps
+#xmodmap -e 'keycode 133 = F13'
+
+if [ -f $HOME/.Xdefaults ]; then
+  xrdb -merge $HOME/.Xdefaults
+fi
+

@@ -20,4 +20,4 @@ fi
 if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
-alias naud='nautilus --no-desktop'
+#xmodmap -e 'keycode 133 = F13'
