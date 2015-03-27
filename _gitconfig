@@ -1,5 +1,6 @@
 # set your user tokens as environment variables, such as ~/.secrets
 # See the README for examples.
+
 [color]
   ui = true
 [color "branch"]
@@ -15,6 +16,7 @@
   pretty = format:%C(blue)%ad%Creset %C(yellow)%h%C(green)%d%Creset %C(blue)%s %C(magenta) [%an]%Creset
 [mergetool]
   prompt = false
+  tool = emerge
 [merge]
   summary = true
   verbosity = 1

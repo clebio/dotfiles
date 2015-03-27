@@ -3,8 +3,6 @@
 ;(require 'ess-site)
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
-(menu-bar-mode -1)
-
 (setq-default abbrev-mode t)
 
 ;; Define new 'next/previous-buffer' commands that skip the
@@ -19,6 +17,7 @@
 (package-initialize)
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
+(autoload 'jedi:setup "jedi" nil t)
 
 (require 'python-environment)
 
@@ -28,10 +27,13 @@
   (previous-buffer)
   (when (string= "*Pymacs*" (buffer-name))
       (previous-buffer))
+  (when (string= "*scratch*" (buffer-name))
+      (previous-buffer))
   (when (string= "*Messages*" (buffer-name))
       (previous-buffer)))
 
-
+(require 'flycheck)
+(global-flycheck-mode)
 (require 'virtualenvwrapper)
 (venv-initialize-interactive-shells) ;; if you want interactive shell support
 (venv-initialize-eshell) ;; if you want eshell support
@@ -87,7 +89,7 @@
 ; don't show the menu bar
 (menu-bar-mode nil)
 ; number of characters until the fill column
-(setq fill-column 80)
+(setq fill-column 79)
 
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
@@ -129,7 +131,7 @@
 (load-file "~/.emacs.d/quick-yes.el")
 
 ;; C-w to kill current buffer
-;(global-set-key [(control w)] 'kill-this-buffer)
+(global-set-key (kbd "C-q") 'kill-this-buffer)
 
 ;; neotree
 (add-to-list 'load-path "~/.emacs.d/neotree")
@@ -197,4 +199,9 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (load-theme 'solarized-dark t)
+(menu-bar-mode -1)
 
+(global-set-key (kbd "C-x n") 'linum-mode)
+
+; toggle line number
+(global-set-key (kbd "M-n") 'linum-mode)
