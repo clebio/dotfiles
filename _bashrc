@@ -71,7 +71,7 @@ xterm*|rxvt*)
     ;;
 esac
 
-source .bashprompt.rc
+source ~/.bashprompt.rc
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -111,6 +111,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 PATH=$PATH:/opt/vagrant/bin
+export PATH=$PATH:/usr/local/go/bin
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -121,4 +122,4 @@ alias emacs='emacs -nw'
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 
-eval `dircolors /home/caleb/dotfiles/dircolors-solarized/dircolors.ansi-light`
+eval `dircolors /home/caleb/dotfiles/dircolors-solarized/dircolors.ansi-dark`

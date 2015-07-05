@@ -87,7 +87,7 @@ map <Leader>/ :nohlsearch<CR>
 
 " line numbers and toggle
 nmap <C-N><C-N> :set invnumber<CR>
-map <C-b> :NERDTreeToggle<CR>
+map <leader>b :NERDTreeToggle<CR>
 
 " Buffer management
 map gb :bn<CR>

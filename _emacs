@@ -4,6 +4,7 @@
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
 (menu-bar-mode -1)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq-default abbrev-mode t)
 
@@ -92,11 +93,11 @@
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
  global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode t)
+;(global-fci-mode t)
 (show-paren-mode 1) ; turn on paren match highlighting
 (setq show-paren-style 'expression) ; highlight entire bracket expression
 (column-number-mode 1) ; show cursor's column
-(global-visual-line-mode 1) ; 1 for on, 0 for off.
+;(global-visual-line-mode 1) ; 1 for on, 0 for off.
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -143,27 +144,13 @@
 
 ;; paredit
 ;; http://www.emacswiki.org/ParEdit
-(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    (paredit-mode t)
-
-	    (turn-on-eldoc-mode)
-	    (eldoc-add-command
-	     'paredit-backward-delete
-	     'paredit-close-round)
-
-	    (local-set-key (kbd "RET") 'electrify-return-if-match)
-	    (eldoc-add-command 'electrify-return-if-match)
-
-	    (show-paren-mode t)))
+;(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+;(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+;(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+;(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+;(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+;(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+;(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
 (defvar electrify-return-match
   "[\]}\)\"]"
@@ -186,3 +173,9 @@
 ;; rainbow delimiters (http://www.emacswiki.org/emacs/RainbowDelimiters)
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(defun go-mode-setup ()
+    (go-eldoc-setup))
+(add-hook 'go-mode-hook 'go-mode-setup)
+(require 'auto-complete-config)
+(require 'go-autocomplete)
