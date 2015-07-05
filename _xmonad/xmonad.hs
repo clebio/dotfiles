@@ -21,7 +21,7 @@ myManageHook = composeAll
 main = do
      xmproc <- spawnPipe "/usr/bin/xmobar"
      xmonad $ defaultConfig
-        { borderWidth        = 3
+        { borderWidth        = 5
         , terminal           = "gnome-terminal"
         , normalBorderColor  = "#666"
         , focusedBorderColor = "#ff0"
@@ -54,7 +54,7 @@ main = do
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
 	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P.sh")
 	, ((mod4Mask .|. shiftMask, xK_q), spawn "gnome-session-quit")
-	, ((mod4Mask .|. shiftMask .|. controlMask, xK_q), spawn "gnome-session-quit --no-prompt")
+	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout
 	, ((mod4Mask .|. shiftMask, xK_d), spawn "~/dotfiles/lenovo-rotate.sh left")
 	, ((mod4Mask .|. shiftMask, xK_w), spawn "~/dotfiles/lenovo-rotate.sh inverted")
 	, ((mod4Mask .|. shiftMask, xK_a), spawn "~/dotfiles/lenovo-rotate.sh right")
