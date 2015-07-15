@@ -121,5 +121,8 @@ alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ F
 alias emacs='emacs -nw'
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gl="git log"
+alias gd="git diff"
+alias gs="git status"
 
 eval `dircolors /home/caleb/dotfiles/dircolors-solarized/dircolors.ansi-dark`
