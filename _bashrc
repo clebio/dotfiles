@@ -2,9 +2,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
-
 export TERM=xterm-256color
-
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
@@ -114,20 +112,20 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-PATH=/usr/local/bin:/opt/vagrant/bin:$PATH
+PATH=$PATH:/opt/vagrant/bin
+export PATH=$PATH:/usr/local/go/bin
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
+alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe >& /dev/null &'
 alias emacs='emacs -nw'
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-alias vim='/usr/bin/vim'
-
-if [ -x /usr/bin/dircolors ]; then
-    eval `dircolors ~/dotfiles/dircolors-solarized/dircolors.ansi-dark`
-fi
+alias gl="git log"
+alias gd="git diff"
+alias gs="git status"
 
 export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
 source /usr/local/bin/virtualenvwrapper.sh

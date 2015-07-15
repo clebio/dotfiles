@@ -6,7 +6,6 @@ set enc=utf-8
 let NERDTreeQuitOnOpen = 1
 
 
-map <C-t> :NERDTreeToggle<CR>
 """ Per-project Vim config
 
 if filereadable(".vim.custom")
@@ -88,7 +87,7 @@ map <Leader>/ :nohlsearch<CR>
 
 " line numbers and toggle
 nmap <C-N><C-N> :set invnumber<CR>
-map <C-b> :NERDTreeToggle<CR>
+map <leader>b :NERDTreeToggle<CR>
 
 " Buffer management
 map gb :bn<CR>
@@ -135,7 +134,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'AndrewRadev/vim-eco'
- 
+
 " Ctrl-P mappings
 let g:ctrlp_map = '<C-o>'
 let g:ctrlp_cmd = 'CtrlP'

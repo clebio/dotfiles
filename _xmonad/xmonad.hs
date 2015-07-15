@@ -10,6 +10,7 @@ import XMonad.Util.EZConfig(additionalKeys)
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.ICCCMFocus
 import System.IO
+import System.Exit
 import Graphics.X11.ExtraTypes.XF86
 
 myManageHook = composeAll
@@ -39,21 +40,26 @@ main = do
 	, ((controlMask, xK_F2),    spawn "xbacklight -10")
 	, ((controlMask, xK_F7),    spawn "pactl set-sink-volume 1 -- -10%")
 	, ((controlMask, xK_F8),    spawn "pactl set-sink-volume 1 -- +10%")
-	, ((controlMask, xK_F6),    spawn "~/bin/pavolcontrol.sh toggle")
+	, ((controlMask, xK_F6),    spawn "~/dotfiles/pavolcontrol toggle")
+	, ((controlMask, xK_F5),    spawn "~/bin/toggle-touchpad.sh")
 	, ((mod4Mask .|. shiftMask, xK_l),    spawn "xscreensaver-command -l") -- Lock Screen
 	, ((mod4Mask .|. shiftMask, xK_x),   spawn "xscreensaver-command -l; ~/bin/suspend.sh")
 	, ((mod4Mask, xK_c),   spawn "chromium-browser")
-	, ((mod4Mask, xK_b),   spawn "firefox")
+	, ((mod4Mask .|. shiftMask, xK_m),   spawn "winefox")
+	, ((shiftMask .|. mod4Mask, xK_b),   spawn "firefox")
 	, ((mod4Mask, xK_m),   spawn "thunderbird")
 	, ((mod4Mask, xK_n),   spawn "nautilus --no-desktop")
-	, ((mod4Mask .|. controlMask, xK_w),   spawn "VBoxManage startvm 'Windows 7'") -- _W_indows
+	, ((mod4Mask .|. controlMask, xK_w),   spawn "VBoxManage startvm 'Winders'") -- _W_indows
 	, ((mod4Mask, xK_w),   spawn "VBoxManage controlvm  'Windows 7' savestate")
 	, ((mod4Mask, xK_Return),   spawn "gnome-terminal")
-	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P")
+	, ((mod4Mask .|. shiftMask, xK_p),   spawn "1P.sh")
+	, ((mod4Mask .|. shiftMask, xK_q), spawn "gnome-session-quit")
 	, ((mod4Mask .|. shiftMask .|. mod1Mask, xK_q), spawn "dbus-send --session --type=method_call --dest=org.gnome.SessionManager /org/gnome/SessionManager org.gnome.SessionManager.Logout uint32:1") -- Logout
-	, ((mod4Mask .|. shiftMask, xK_d), spawn "~/bin/lenovo-rotate.sh left")
-	, ((mod4Mask .|. shiftMask, xK_w), spawn "~/bin/lenovo-rotate.sh inverted")
-	, ((mod4Mask .|. shiftMask, xK_a), spawn "~/bin/lenovo-rotate.sh right")
-	, ((mod4Mask .|. shiftMask, xK_s), spawn "~/bin/lenovo-rotate.sh normal")
-	, ((mod4Mask, xK_o), spawn "~/bin/lenovo-rotation-cycle.sh")
+	, ((mod4Mask .|. shiftMask, xK_d), spawn "~/dotfiles/lenovo-rotate.sh left")
+	, ((mod4Mask .|. shiftMask, xK_w), spawn "~/dotfiles/lenovo-rotate.sh inverted")
+	, ((mod4Mask .|. shiftMask, xK_a), spawn "~/dotfiles/lenovo-rotate.sh right")
+	, ((mod4Mask .|. shiftMask, xK_s), spawn "~/dotfiles/lenovo-rotate.sh normal")
+	, ((controlMask, xK_F1), spawn "unity-control-center")
+	, ((mod4Mask, xK_p), spawn "exe=`dmenu_run` && eval \"exec $exe\"")
+	, ((mod4Mask, xK_q), spawn "xmonad --recompile && xmonad --restart")
 	]

@@ -3,7 +3,14 @@
 ;(require 'ess-site)
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
+(menu-bar-mode -1)
+(add-hook 'after-init-hook #'global-flycheck-mode)
+
 (setq-default abbrev-mode t)
+
+;; Magit
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 ;; Define new 'next/previous-buffer' commands that skip the
 ;; *Asterisk* buffers
@@ -48,7 +55,7 @@
 (setq py-smart-indentation t)
 
 (global-set-key [remap previous-buffer] 'previous-buffer-nostar)
-(global-set-key (kbd "M-[") 'previous-buffer)
+(global-set-key (kbd "M-]") 'previous-buffer)
 
 (defun next-buffer-nostar ()
   "next-buffer, skip *Asterisk* buffers"
@@ -59,7 +66,7 @@
   (when (string= "*Pymacs*" (buffer-name))
       (next-buffer)))
 (global-set-key [remap next-buffer] 'next-buffer-nostar)
-(global-set-key (kbd "M-]") 'next-buffer)
+(global-set-key (kbd "M-[") 'next-buffer)
 
 ;(require 'quack)
 (autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
@@ -94,7 +101,7 @@
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
  global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode t)
+;(global-fci-mode t)
 (show-paren-mode 1) ; turn on paren match highlighting
 (setq show-paren-style 'expression) ; highlight entire bracket expression
 (column-number-mode 1) ; show cursor's column
@@ -117,21 +124,12 @@
 ;; activate minor whitespace mode when in python mode
 (add-hook 'python-mode-hook 'whitespace-mode)
 
-(require 'neotree)
-(global-set-key (kbd "C-t") 'neotree-toggle)
-
-(global-set-key (kbd "M-j") 'split-window-horizontally)
-(global-set-key (kbd "M-h") 'split-window-vertically)
-(global-set-key (kbd "M-o") 'other-window)
-
-(global-set-key (kbd "M-g") 'goto-line)
-
 ;; don't make me write 'yes' to confirm
 (defalias 'yes-or-no-p 'y-or-n-p)
 (load-file "~/.emacs.d/quick-yes.el")
 
 ;; C-w to kill current buffer
-(global-set-key (kbd "C-q") 'kill-this-buffer)
+;(global-set-key [(control w)] 'kill-this-buffer)
 
 ;; neotree
 (add-to-list 'load-path "~/.emacs.d/neotree")
@@ -154,27 +152,13 @@
 
 ;; paredit
 ;; http://www.emacswiki.org/ParEdit
-(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
-
-(add-hook 'emacs-lisp-mode-hook
-	  (lambda ()
-	    (paredit-mode t)
-
-	    (turn-on-eldoc-mode)
-	    (eldoc-add-command
-	     'paredit-backward-delete
-	     'paredit-close-round)
-
-	    (local-set-key (kbd "RET") 'electrify-return-if-match)
-	    (eldoc-add-command 'electrify-return-if-match)
-
-	    (show-paren-mode t)))
+;(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
+;(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
+;(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+;(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
+;(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
+;(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+;(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
 
 (defvar electrify-return-match
   "[\]}\)\"]"
@@ -198,10 +182,8 @@
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
-(load-theme 'solarized-dark t)
-(menu-bar-mode -1)
-
-(global-set-key (kbd "C-x n") 'linum-mode)
-
-; toggle line number
-(global-set-key (kbd "M-n") 'linum-mode)
+(defun go-mode-setup ()
+    (go-eldoc-setup))
+(add-hook 'go-mode-hook 'go-mode-setup)
+(require 'auto-complete-config)
+(require 'go-autocomplete)

@@ -1,8 +1,18 @@
 #!/bin/bash
 eval `dbus-launch --auto-syntax`
+<<<<<<< HEAD
 #setxkbmap -option ctrl:nocaps
 #xmodmap -e 'keycode 133 = F13'
 
+=======
+setxkbmap -option ctrl:nocaps
+xmodmap -e 'keycode 133 = F13'
+
+alias 1P='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/1Password/1Password.exe &'
+onboard &
+easystroke &
+ 
+>>>>>>> ativ
 if [ -f $HOME/.Xdefaults ]; then
   xrdb -merge $HOME/.Xdefaults
 fi
