@@ -9,7 +9,7 @@ map <leader>n :NERDTreeToggle<CR>
 """"""""""""""""
 " Colros
 set colorcolumn=80
-highlight ColorColumn ctermbg=Blue ctermfg=White guibg=#592929
+"highlight ColorColumn ctermbg=Blue ctermfg=White guibg=#592929
 " Highlight cursor row and column
 hi CursorLine cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
 hi CursorColumn cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
@@ -111,6 +111,7 @@ set softtabstop=4   " Sets the number of columns for a TAB.
 set expandtab       " Expand TABs to spaces.
 
 " set the runtime path to include Vundle and initialize
+execute pathogen#infect()
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 

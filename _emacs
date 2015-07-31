@@ -4,8 +4,20 @@
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
 (menu-bar-mode -1)
-
 (setq-default abbrev-mode t)
+(setenv "LC_CTYPE" "en_US.UTF-8")
+
+;; Vagrant key-bindings
+(global-set-key (kbd "C-x v s") 'vagrant-status)
+(global-set-key (kbd "C-x v p") 'vagrant-provision)
+(global-set-key (kbd "C-x v u") 'vagrant-up)
+(global-set-key (kbd "C-x v h") 'vagrant-halt)
+(global-set-key (kbd "C-x v D") 'vagrant-destroy)
+(global-set-key (kbd "C-x v t") 'vagrant-tramp-term)
+
+;; Magit (http://magit.vc/)
+(global-set-key (kbd "C-x g") 'magit-status)
+(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
 ;; Define new 'next/previous-buffer' commands that skip the
 ;; *Asterisk* buffers
@@ -44,7 +56,7 @@
 (setq py-smart-indentation t)
 
 (global-set-key [remap previous-buffer] 'previous-buffer-nostar)
-(global-set-key (kbd "M-]") 'previous-buffer)
+(global-set-key (kbd "M-[") 'previous-buffer)
 
 (defun next-buffer-nostar ()
   "next-buffer, skip *Asterisk* buffers"
@@ -55,14 +67,14 @@
   (when (string= "*Pymacs*" (buffer-name))
       (next-buffer)))
 (global-set-key [remap next-buffer] 'next-buffer-nostar)
-(global-set-key (kbd "M-[") 'next-buffer)
+(global-set-key (kbd "M-]") 'next-buffer)
 
 ;(require 'quack)
-(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
+;(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 ;(load "~/.emacs.d/pymacs.el")
-(require 'pymacs)
+;(require 'pymacs)
 ;(load-file "~/.emacs.d/emacs-for-python/epy-init.el")
 (setq skeleton-pair nil)
 
@@ -71,7 +83,7 @@
 ;(require 'python-mode)
 
 ;; https://bitbucket.org/agr/ropemacs/src
-(pymacs-load "ropemacs" "rope-")
+;(pymacs-load "ropemacs" "rope-")
 (setq ropemacs-enable-shortcuts nil)
 (setq ropemacs-local-prefix "C-c C-p")
 (setq ropemacs-enable-autoimport 't)
@@ -90,7 +102,7 @@
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
  global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode t)
+;(global-fci-mode t)
 (show-paren-mode 1) ; turn on paren match highlighting
 (setq show-paren-style 'expression) ; highlight entire bracket expression
 (column-number-mode 1) ; show cursor's column
@@ -137,4 +149,7 @@
   (interactive)
   (run-scheme
     "/home/caleb/scmutils/mit-scheme/bin/scheme --library /home/caleb/scmutils/mit-scheme/lib"
-  ))
+    ))
+
+(load-file "~/.emacs.d/ob-ipython.el")
+(require 'ob-ipython)

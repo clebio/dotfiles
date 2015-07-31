@@ -71,7 +71,8 @@ xterm*|rxvt*)
     ;;
 esac
 
-source .bashprompt.rc
+source ~/.bashprompt.rc
+source ~/.git-completion.bash
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -83,6 +84,9 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+    eval `dircolors /home/caleb/dotfiles/dircolors-solarized/dircolors.ansi-light`
+else
+    export CLICOLOR=YES
 fi
 
 # some more ls aliases
@@ -120,5 +124,16 @@ alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ F
 alias emacs='emacs -nw'
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias gs='git status'
+alias gd='git diff'
+alias gl='git log'
+alias gd='git diff'
 
-eval `dircolors /home/caleb/dotfiles/dircolors-solarized/dircolors.ansi-light`
+export WORKON_HOME=$HOME/.virtualenvs
+export PROJECT_HOME=$HOME/Devel
+source /usr/local/bin/virtualenvwrapper.sh
+
+export PATH="$PATH:$HOME/.node/bin"
+
+eval "$(boot2docker shellinit 2> /dev/null )"
+complete -C '/usr/local/bin/aws_completer' aws
