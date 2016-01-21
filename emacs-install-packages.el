@@ -1,9 +1,9 @@
 (require 'cl)
 
 (defvar my-packages
-  '(ack-and-a-half auctex clojure-mode coffee-mode deft expand-region
+  '(auctex clojure-mode coffee-mode deft expand-region
                    gist groovy-mode haml-mode haskell-mode inf-ruby
-                   magit magithub markdown-mode paredit projectile python
+                   magit markdown-mode paredit projectile python
                    sass-mode rainbow-mode scss-mode solarized-theme
                    volatile-highlights yaml-mode yari zenburn-theme
 		   ansible ansible-doc vagrant vagrant-tramp

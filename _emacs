@@ -3,15 +3,27 @@
 ;(require 'ess-site)
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
-(menu-bar-mode -1)
 (setq-default abbrev-mode t)
 (setenv "LC_CTYPE" "en_US.UTF-8")
+
+(setq-default indent-tabs-mode nil)
+(setq tab-width 4)
+
+;; Ansible
+;; https://github.com/k1LoW/emacs-ansible
+;; https://github.com/lunaryorn/ansible-doc.el
+(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+(add-hook 'yaml-mode-hook #'ansible-doc-mode)
+
+(set-input-method 'latin-9-prefix)
+(global-set-key (kbd "C-x C-l") (lambda () (interactive) (toggle-input-method 'greek)))
 
 ;; Vagrant key-bindings
 (global-set-key (kbd "C-x v s") 'vagrant-status)
 (global-set-key (kbd "C-x v p") 'vagrant-provision)
 (global-set-key (kbd "C-x v u") 'vagrant-up)
 (global-set-key (kbd "C-x v h") 'vagrant-halt)
+(global-set-key (kbd "C-x v r") 'vagrant-reload)
 (global-set-key (kbd "C-x v D") 'vagrant-destroy)
 (global-set-key (kbd "C-x v t") 'vagrant-tramp-term)
 
@@ -29,7 +41,10 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 (add-hook 'python-mode-hook 'jedi:setup)
+(setq jedi:complete-on-dot t)
 (require 'python-environment)
 
 (defun previous-buffer-nostar ()
@@ -95,7 +110,7 @@
 ; don't show the startup screen
 (setq inhibit-startup-screen t)
 ; don't show the menu bar
-(menu-bar-mode nil)
+;(menu-bar-mode nil)
 ; number of characters until the fill column
 (setq fill-column 80)
 
@@ -129,8 +144,8 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (load-file "~/.emacs.d/quick-yes.el")
 
-;; C-w to kill current buffer
-;(global-set-key [(control w)] 'kill-this-buffer)
+;; M-w to kill current buffer
+(global-set-key (kbd "M-/") 'kill-this-buffer)
 
 ;; neotree
 (add-to-list 'load-path "~/.emacs.d/neotree")
@@ -153,3 +168,38 @@
 
 (load-file "~/.emacs.d/ob-ipython.el")
 (require 'ob-ipython)
+
+; don't show the startup screen
+(setq inhibit-startup-screen t)
+; don't show the menu bar
+(menu-bar-mode nil)
+; don't show the tool bar
+(require 'tool-bar)
+(tool-bar-mode nil)
+; don't show the scroll bar
+(scroll-bar-mode nil)
+
+(require 'auto-complete)
+(add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
+
+
+;; easy keys to split window. Key based on ErgoEmacs keybinding
+(global-set-key (kbd "M-2") 'delete-other-windows) ; expand current pane
+(global-set-key (kbd "M-4") 'split-window-horizontally) ; split pane top/bottom
+(global-set-key (kbd "M-5") 'split-window-vertically)
+(global-set-key (kbd "M-3") 'delete-window) ; close current pane
+(global-set-key (kbd "M-s") 'other-window) ; cursor to other pane
+
+;; SQL mode for Cassandra's CQL
+(add-to-list 'auto-mode-alist '("\\.cql\\'" . sql-mode))
+
+;; auto-java-complete
+(add-to-list 'load-path "~/.emacs.d/auto-java-complete/")
+(require 'ajc-java-complete-config)
+(add-hook 'java-mode-hook 'ajc-java-complete-mode)
+(add-hook 'find-file-hook 'ajc-4-jsp-find-file-hook)
+
+;; search word at cursor
+;; http://www.emacswiki.org/emacs/SearchAtPoint
+(global-set-key (kbd "C-*") 'evil-search-symbol-forward)
+(global-set-key (kbd "C-#") 'evil-search-symbol-backward)

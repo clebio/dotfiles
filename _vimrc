@@ -131,7 +131,7 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'AndrewRadev/vim-eco'
- 
+
 " Ctrl-P mappings
 let g:ctrlp_map = '<C-o>'
 let g:ctrlp_cmd = 'CtrlP'
