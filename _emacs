@@ -4,7 +4,6 @@
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
 (menu-bar-mode -1)
-(add-hook 'after-init-hook #'global-flycheck-mode)
 
 (setq-default abbrev-mode t)
 
@@ -41,6 +40,7 @@
 
 (require 'flycheck)
 (global-flycheck-mode)
+(add-hook 'after-init-hook #'global-flycheck-mode)
 (require 'virtualenvwrapper)
 (venv-initialize-interactive-shells) ;; if you want interactive shell support
 (venv-initialize-eshell) ;; if you want eshell support
