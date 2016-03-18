@@ -11,6 +11,7 @@
 		   neotree
 		   rainbow-delimiters
 		   auto-complete go-autocomplete
+                   jdee
 		   )
   "A list of packages to ensure are installed at launch.")
 

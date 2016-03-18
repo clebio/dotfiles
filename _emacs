@@ -3,11 +3,31 @@
 ;(require 'ess-site)
 ;; disable underscore substitution (to ' <- ' )
 ;(ess-toggle-underscore nil)
-(menu-bar-mode -1)
-
 (setq-default abbrev-mode t)
+(setenv "LC_CTYPE" "en_US.UTF-8")
 
-;; Magit
+(setq-default indent-tabs-mode nil)
+(setq tab-width 4)
+
+;; Ansible
+;; https://github.com/k1LoW/emacs-ansible
+;; https://github.com/lunaryorn/ansible-doc.el
+(add-hook 'yaml-mode-hook '(lambda () (ansible 1)))
+(add-hook 'yaml-mode-hook #'ansible-doc-mode)
+
+(set-input-method 'latin-9-prefix)
+(global-set-key (kbd "C-x C-l") (lambda () (interactive) (toggle-input-method 'greek)))
+
+;; Vagrant key-bindings
+(global-set-key (kbd "C-x v s") 'vagrant-status)
+(global-set-key (kbd "C-x v p") 'vagrant-provision)
+(global-set-key (kbd "C-x v u") 'vagrant-up)
+(global-set-key (kbd "C-x v h") 'vagrant-halt)
+(global-set-key (kbd "C-x v r") 'vagrant-reload)
+(global-set-key (kbd "C-x v D") 'vagrant-destroy)
+(global-set-key (kbd "C-x v t") 'vagrant-tramp-term)
+
+;; Magit (http://magit.vc/)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
 
@@ -21,10 +41,10 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
-(autoload 'jedi:setup "jedi" nil t)
-
 (require 'python-environment)
 
 (defun previous-buffer-nostar ()
@@ -33,14 +53,10 @@
   (previous-buffer)
   (when (string= "*Pymacs*" (buffer-name))
       (previous-buffer))
-  (when (string= "*scratch*" (buffer-name))
-      (previous-buffer))
   (when (string= "*Messages*" (buffer-name))
       (previous-buffer)))
 
-(require 'flycheck)
-(global-flycheck-mode)
-(add-hook 'after-init-hook #'global-flycheck-mode)
+
 (require 'virtualenvwrapper)
 (venv-initialize-interactive-shells) ;; if you want interactive shell support
 (venv-initialize-eshell) ;; if you want eshell support
@@ -55,7 +71,7 @@
 (setq py-smart-indentation t)
 
 (global-set-key [remap previous-buffer] 'previous-buffer-nostar)
-(global-set-key (kbd "M-]") 'previous-buffer)
+(global-set-key (kbd "M-[") 'previous-buffer)
 
 (defun next-buffer-nostar ()
   "next-buffer, skip *Asterisk* buffers"
@@ -66,10 +82,10 @@
   (when (string= "*Pymacs*" (buffer-name))
       (next-buffer)))
 (global-set-key [remap next-buffer] 'next-buffer-nostar)
-(global-set-key (kbd "M-[") 'next-buffer)
+(global-set-key (kbd "M-]") 'next-buffer)
 
 ;(require 'quack)
-(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
+;(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
 
 ;(load "~/.emacs.d/pymacs.el")
@@ -91,12 +107,6 @@
 ; Use ipython as python interpreter
 (setq-default py-shell-name "ipython")
 (setq-default py-which-bufname "IPython")
-; don't show the startup screen
-(setq inhibit-startup-screen t)
-; don't show the menu bar
-(menu-bar-mode nil)
-; number of characters until the fill column
-(setq fill-column 79)
 
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
@@ -128,13 +138,13 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (load-file "~/.emacs.d/quick-yes.el")
 
-;; C-w to kill current buffer
-;(global-set-key [(control w)] 'kill-this-buffer)
+;; M-w to kill current buffer
+(global-set-key (kbd "M-/") 'kill-this-buffer)
 
 ;; neotree
 (add-to-list 'load-path "~/.emacs.d/neotree")
 (require 'neotree)
-(global-set-key (kbd "C-t") 'neotree-toggle)
+(global-set-key (kbd "C-x t") 'neotree-toggle)
 
 ;; window navigation
 (windmove-default-keybindings)
@@ -148,42 +158,67 @@
   (interactive)
   (run-scheme
     "/home/caleb/scmutils/mit-scheme/bin/scheme --library /home/caleb/scmutils/mit-scheme/lib"
-  ))
+    ))
 
-;; paredit
-;; http://www.emacswiki.org/ParEdit
-;(autoload 'enable-paredit-mode "paredit" "Turn on pseudo-structural editing of Lisp code." t)
-;(add-hook 'emacs-lisp-mode-hook       #'enable-paredit-mode)
-;(add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
-;(add-hook 'ielm-mode-hook             #'enable-paredit-mode)
-;(add-hook 'lisp-mode-hook             #'enable-paredit-mode)
-;(add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
-;(add-hook 'scheme-mode-hook           #'enable-paredit-mode)
+; don't show the startup screen
+(setq inhibit-startup-screen t)
+; don't show the menu bar
+(menu-bar-mode -1)
+; don't show the tool bar
+(require 'tool-bar)
+(tool-bar-mode nil)
+; don't show the scroll bar
+(scroll-bar-mode nil)
+; number of characters until the fill column
+(setq fill-column 80)
 
-(defvar electrify-return-match
-  "[\]}\)\"]"
-  "If this regexp matches the text after the cursor, do an \"electric\"
-  return.")
+(require 'auto-complete)
+(add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
 
-(defun electrify-return-if-match (arg)
-  "If the text after the cursor matches `electrify-return-match' then
-  open and indent an empty line between the cursor and the text.  Move the
-  cursor to the new line."
-  (interactive "P")
-  (let ((case-fold-search nil))
-    (if (looking-at electrify-return-match)
-	(save-excursion (newline-and-indent)))
-    (newline arg)
-    (indent-according-to-mode)))
 
-(global-set-key (kbd "RET") 'electrify-return-if-match)
+;; easy keys to split window. Key based on ErgoEmacs keybinding
+(global-set-key (kbd "M-2") 'delete-other-windows) ; expand current pane
+(global-set-key (kbd "M-4") 'split-window-horizontally) ; split pane top/bottom
+(global-set-key (kbd "M-5") 'split-window-vertically)
+(global-set-key (kbd "M-3") 'delete-window) ; close current pane
+(global-set-key (kbd "M-s") 'other-window) ; cursor to other pane
 
-;; rainbow delimiters (http://www.emacswiki.org/emacs/RainbowDelimiters)
-(require 'rainbow-delimiters)
-(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+;; SQL mode for Cassandra's CQL
+(add-to-list 'auto-mode-alist '("\\.cql\\'" . sql-mode))
 
-(defun go-mode-setup ()
-    (go-eldoc-setup))
-(add-hook 'go-mode-hook 'go-mode-setup)
-(require 'auto-complete-config)
-(require 'go-autocomplete)
+;; auto-java-complete
+;(add-to-list 'load-path "~/.emacs.d/auto-java-complete/")
+;(require 'ajc-java-complete-config)
+;(add-hook 'java-mode-hook 'ajc-java-complete-mode)
+;(add-hook 'find-file-hook 'ajc-4-jsp-find-file-hook)
+
+;; search word at cursor
+;; http://www.emacswiki.org/emacs/SearchAtPoint
+(global-set-key (kbd "C-*") 'evil-search-symbol-forward)
+(global-set-key (kbd "C-#") 'evil-search-symbol-backward)
+
+(add-hook 'java-mode-hook (lambda ()
+                            (setq c-basic-offset 4
+                                  tab-width 4
+                                  indent-tabs-mode nil)))
+(defun jdee-custom-configs ()
+  (local-set-key (kbd "C-c m") 'jdee-make)
+  )
+
+;; add to hook
+(add-hook 'jdee-mode-hook 'jdee-custom-configs)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(jdee-compiler (quote ("javac")))
+ '(jdee-global-classpath (quote ("~/dev/junit.jar" "~/dev/learning_java"))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+(setq jdee-server-dir "~/.emacs.d")
