@@ -71,7 +71,7 @@ xterm*|rxvt*)
     ;;
 esac
 
-if [ -x ~/.bashprompt.rc ]; then
+if [ -f ~/.bashprompt.rc ]; then
     source ~/.bashprompt.rc
 fi
 
@@ -85,6 +85,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias grep='grep --color=auto'
     alias fgrep='fgrep --color=auto'
     alias egrep='egrep --color=auto'
+else
+    alias ls="ls -G"
 fi
 
 # some more ls aliases
@@ -128,7 +130,7 @@ alias gd="git diff"
 alias gs="git status"
 
 export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
-#source /usr/local/bin/virtualenvwrapper.sh
+source /usr/local/bin/virtualenvwrapper_lazy.sh
 source ~/dotfiles/git-completion.bash
 export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 

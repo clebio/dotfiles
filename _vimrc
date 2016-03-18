@@ -114,10 +114,12 @@ set shiftwidth=4    " Indents will have a width of 4.
 set softtabstop=4   " Sets the number of columns for a TAB.
 set expandtab       " Expand TABs to spaces.
 
+execute pathogen#infect()
 " set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
+"set rtp+=~/.vim/bundle/vundle/
+"call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 " let Vundle manage Vundle, required
 Bundle 'gmarik/vundle'
 " And other bundles
@@ -147,10 +149,6 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:jedi#show_call_signatures = 0
 
 syntax enable
-set t_Co=256
-"set background=light
-"let g:solarized_termcolors=256
-"colorscheme solarized
 
 " http://stackoverflow.com/a/21323445
 " Only do this part when compiled with support for autocommands.
@@ -163,9 +161,9 @@ if has("autocmd")
 endif
 
 syntax enable
-set t_Co=16
-set background=dark
-let g:solarized_termcolors=256
+set t_Co=256
+set background=light
+"let g:solarized_termcolors=256
 colorscheme solarized
 
 """"""""""""""""""""

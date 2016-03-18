@@ -46,4 +46,10 @@
   enabled = true
 [user]
 	name = Caleb Hyde
-	email = chyde@alightanalytics.com
+	email = caleb.hyde@gmail.com
+[filter "lfs"]
+	clean = git-lfs clean %f
+	smudge = git-lfs smudge %f
+	required = true
+[credential]
+	helper = cache --timeout=3600
