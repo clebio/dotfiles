@@ -1,5 +1,38 @@
 set nocompatible
 filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+execute pathogen#infect()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle, required
+Bundle 'gmarik/vundle'
+" And other bundles
+Bundle 'tpope/vim-fugitive'
+Bundle 'ctrlpvim/ctrlp.vim'
+"Bundle 'croaky/vim-colors-github'
+Bundle 'nvie/vim-flake8'
+Bundle 'rking/ag.vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'ervandew/supertab'
+Bundle 'davidhalter/jedi-vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'vim-scripts/YankRing.vim'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'AndrewRadev/vim-eco'
+
+" http://stackoverflow.com/a/21323445
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+    " Use filetype detection and file-based automatic indenting.
+    filetype plugin indent on
+
+    " Use actual tab chars in Makefiles.
+    autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
+endif
+
 set enc=utf-8
 
 :let mapleader = ","
@@ -80,7 +113,7 @@ map <leader>s? z=
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " line numbers and toggle
-set number
+" set number
 nmap <C-N><C-N> :set invnumber<CR>
 
 map <C-b> :NERDTreeToggle<CR>
@@ -91,6 +124,13 @@ map gf :bp<CR>
 nmap s :w<CR>
 nmap <C-c> :bprevious<CR>:bdelete #<CR>
 nmap <leader>q :qall<CR>
+
+" Close/hide windows/splits
+set hidden
+nmap wo <C-w>o
+nmap wq <C-w>q
+nmap wp :CtrlP
+nmap wd :bunload<CR>
 
 " Easier Vim splits
 nnoremap <C-V> <C-W>v
@@ -110,28 +150,6 @@ set shiftwidth=4    " Indents will have a width of 4.
 set softtabstop=4   " Sets the number of columns for a TAB.
 set expandtab       " Expand TABs to spaces.
 
-" set the runtime path to include Vundle and initialize
-execute pathogen#infect()
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle manage Vundle, required
-Bundle 'gmarik/vundle'
-" And other bundles
-Bundle 'tpope/vim-fugitive'
-Bundle 'kien/ctrlp.vim'
-"Bundle 'croaky/vim-colors-github'
-Bundle 'nvie/vim-flake8'
-Bundle 'rking/ag.vim'
-Bundle 'tpope/vim-markdown'
-Bundle 'ervandew/supertab'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'vim-scripts/YankRing.vim'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'AndrewRadev/vim-eco'
-
 " Ctrl-P mappings
 let g:ctrlp_map = '<C-o>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -148,16 +166,6 @@ set t_Co=256
 set background=light
 let g:solarized_termcolors=256
 "colorscheme solarized
-
-" http://stackoverflow.com/a/21323445
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-    " Use filetype detection and file-based automatic indenting.
-    filetype plugin indent on
-
-    " Use actual tab chars in Makefiles.
-    autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
-endif
 
 """"""""""""""""""""
 " Whitespace utilities

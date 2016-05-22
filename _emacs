@@ -110,7 +110,7 @@
 ; don't show the startup screen
 (setq inhibit-startup-screen t)
 ; don't show the menu bar
-;(menu-bar-mode nil)
+(menu-bar-mode nil)
 ; number of characters until the fill column
 (setq fill-column 80)
 
@@ -192,6 +192,8 @@
 
 ;; SQL mode for Cassandra's CQL
 (add-to-list 'auto-mode-alist '("\\.cql\\'" . sql-mode))
+(eval-after-load "sql"
+  (load-library "sql-indent"))
 
 ;; auto-java-complete
 (add-to-list 'load-path "~/.emacs.d/auto-java-complete/")
@@ -203,3 +205,7 @@
 ;; http://www.emacswiki.org/emacs/SearchAtPoint
 (global-set-key (kbd "C-*") 'evil-search-symbol-forward)
 (global-set-key (kbd "C-#") 'evil-search-symbol-backward)
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(global-set-key (kbd "M-e") 'electric-indent-mode)
