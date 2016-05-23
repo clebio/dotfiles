@@ -222,3 +222,6 @@
  ;; If there is more than one, they won't work right.
  )
 (setq jdee-server-dir "~/.emacs.d")
+
+(require 'rainbow-delimiters)
+(add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
