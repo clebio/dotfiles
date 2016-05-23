@@ -107,6 +107,12 @@
 ; Use ipython as python interpreter
 (setq-default py-shell-name "ipython")
 (setq-default py-which-bufname "IPython")
+; don't show the startup screen
+(setq inhibit-startup-screen t)
+; don't show the menu bar
+(menu-bar-mode nil)
+; number of characters until the fill column
+(setq fill-column 80)
 
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
@@ -225,3 +231,5 @@
 
 (require 'rainbow-delimiters)
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
+
+(global-set-key (kbd "M-e") 'electric-indent-mode)

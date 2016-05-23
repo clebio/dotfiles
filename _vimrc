@@ -1,23 +1,52 @@
 set nocompatible
 filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+execute pathogen#infect()
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+" let Vundle manage Vundle, required
+Bundle 'gmarik/vundle'
+" And other bundles
+Bundle 'tpope/vim-fugitive'
+Bundle 'ctrlpvim/ctrlp.vim'
+"Bundle 'croaky/vim-colors-github'
+Bundle 'nvie/vim-flake8'
+Bundle 'rking/ag.vim'
+Bundle 'tpope/vim-markdown'
+Bundle 'ervandew/supertab'
+Bundle 'davidhalter/jedi-vim'
+Bundle 'scrooloose/nerdtree'
+Bundle 'altercation/vim-colors-solarized'
+Bundle 'vim-scripts/YankRing.vim'
+Bundle 'kchmck/vim-coffee-script'
+Bundle 'AndrewRadev/vim-eco'
+
+" http://stackoverflow.com/a/21323445
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+    " Use filetype detection and file-based automatic indenting.
+    filetype plugin indent on
+
+    " Use actual tab chars in Makefiles.
+    autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
+endif
+
 set enc=utf-8
 
 :let mapleader = ","
 let NERDTreeQuitOnOpen = 1
-
-
-""" Per-project Vim config
-
-if filereadable(".vim.custom")
-    so .vim.custom
-endif
+map <leader>n :NERDTreeToggle<CR>
 
 """"""""""""""""
 " Colros
-"set colorcolumn=80
-highlight ColorColumn ctermbg=137 ctermfg=White guibg=#4499ff
-hi CursorLine cterm=NONE ctermbg=grey ctermfg=blue guibg=#2c2d27 guifg=white
-hi CursorColumn cterm=NONE ctermbg=grey ctermfg=246 guibg=#2c2d27 guifg=white
+set colorcolumn=80
+"highlight ColorColumn ctermbg=Blue ctermfg=White guibg=#592929
+" Highlight cursor row and column
+hi CursorLine cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
+hi CursorColumn cterm=NONE ctermbg=grey ctermfg=Blue guibg=darkred guifg=white
+
 hi Search cterm=NONE ctermfg=grey ctermbg=blue
 
 " Toggle with ',c'
@@ -96,6 +125,13 @@ nmap s :w<CR>
 nmap <C-c> :bprevious<CR>:bdelete #<CR>
 nmap <leader>q :qall<CR>
 
+" Close/hide windows/splits
+set hidden
+nmap wo <C-w>o
+nmap wq <C-w>q
+nmap wp :CtrlP
+nmap wd :bunload<CR>
+
 " Easier Vim splits
 nnoremap <C-V> <C-W>v
 nnoremap <C-J> <C-W><C-J>
@@ -114,29 +150,6 @@ set shiftwidth=4    " Indents will have a width of 4.
 set softtabstop=4   " Sets the number of columns for a TAB.
 set expandtab       " Expand TABs to spaces.
 
-execute pathogen#infect()
-" set the runtime path to include Vundle and initialize
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Bundle 'gmarik/vundle'
-" And other bundles
-Bundle 'tpope/vim-fugitive'
-Bundle 'kien/ctrlp.vim'
-"Bundle 'croaky/vim-colors-github'
-Bundle 'nvie/vim-flake8'
-Bundle 'rking/ag.vim'
-Bundle 'tpope/vim-markdown'
-Bundle 'ervandew/supertab'
-Bundle 'davidhalter/jedi-vim'
-Bundle 'scrooloose/nerdtree'
-Bundle 'altercation/vim-colors-solarized'
-Bundle 'vim-scripts/YankRing.vim'
-Bundle 'kchmck/vim-coffee-script'
-Bundle 'AndrewRadev/vim-eco'
-
 " Ctrl-P mappings
 let g:ctrlp_map = '<C-o>'
 let g:ctrlp_cmd = 'CtrlP'
@@ -149,22 +162,10 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 let g:jedi#show_call_signatures = 0
 
 syntax enable
-
-" http://stackoverflow.com/a/21323445
-" Only do this part when compiled with support for autocommands.
-if has("autocmd")
-    " Use filetype detection and file-based automatic indenting.
-    filetype plugin indent on
-
-    " Use actual tab chars in Makefiles.
-    autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
-endif
-
-syntax enable
 set t_Co=256
 set background=light
-"let g:solarized_termcolors=256
-colorscheme solarized
+let g:solarized_termcolors=256
+"colorscheme solarized
 
 """"""""""""""""""""
 " Whitespace utilities

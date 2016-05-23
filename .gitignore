@@ -5,5 +5,3 @@ xmonad.errors
 xmonad.o
 xmonad-x*
 bash_history
-
-_vim/bundle/*

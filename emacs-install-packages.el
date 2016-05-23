@@ -12,6 +12,7 @@
 		   rainbow-delimiters
 		   auto-complete go-autocomplete
                    jdee
+		   ansible ansible-doc vagrant vagrant-tramp
 		   )
   "A list of packages to ensure are installed at launch.")
 
