@@ -22,6 +22,10 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'vim-scripts/YankRing.vim'
 Bundle 'kchmck/vim-coffee-script'
 Bundle 'AndrewRadev/vim-eco'
+Bundle 'jreybert/vimagit'
+Bundle 'Valloric/YouCompleteMe'
+Bundle 'vim-scripts/django.vim'
+Bundle 'scrooloose/syntastic'
 
 " http://stackoverflow.com/a/21323445
 " Only do this part when compiled with support for autocommands.
@@ -39,8 +43,31 @@ set enc=utf-8
 let NERDTreeQuitOnOpen = 1
 map <leader>n :NERDTreeToggle<CR>
 
+set mouse=a
+
+" Backspace behavior
+set backspace=indent,eol,start
 """"""""""""""""
-" Colros
+" Syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" YouCompleteMe
+
+let g:ycm_collect_identifiers_from_tags_files = 1 " Let YCM read tags from Ctags file
+let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+let g:ycm_seed_identifiers_with_syntax = 1 " Completion for programming language's keyword
+let g:ycm_complete_in_comments = 1 " Completion in comments
+let g:ycm_complete_in_strings = 1 " Completion in string
+
+
+" Colors
 set colorcolumn=80
 "highlight ColorColumn ctermbg=Blue ctermfg=White guibg=#592929
 " Highlight cursor row and column
@@ -127,10 +154,10 @@ nmap <leader>q :qall<CR>
 
 " Close/hide windows/splits
 set hidden
-nmap wo <C-w>o
-nmap wq <C-w>q
-nmap wp :CtrlP
-nmap wd :bunload<CR>
+nmap <leader>o <C-w>o
+nmap <leader>q <C-w>q
+nmap <leader>p :CtrlP
+nmap <leader>d :bunload<CR>
 
 " Easier Vim splits
 nnoremap <C-V> <C-W>v
@@ -156,6 +183,9 @@ let g:ctrlp_cmd = 'CtrlP'
 
 " Don't show docstring window via jedi-vim
 autocmd FileType python setlocal completeopt-=preview
+autocmd FileType python set sw=4
+autocmd FileType python set ts=4
+autocmd FileType python set sts=4
 " Cycle jedi-vim top-down
 let g:SuperTabDefaultCompletionType = "<c-n>"
 " Don't auto-suggest method signatures
@@ -188,7 +218,10 @@ autocmd BufWinLeave * call clearmatches()
 function! TrimWhiteSpace()
     %s/\s\+$//e
 endfunction
+autocmd FileType py,html,c,cpp,java,php autocmd BufWritePre <buffer> %s/\s\+$//e
 
 au BufRead,BufNewFile *.coffee set filetype=coffee
 au BufRead,BufNewFile *.coffee.md set filetype=coffee
 au BufRead,BufNewFile *.md set filetype=markdown
+
+map <leader>g :MagitOnly<CR>
