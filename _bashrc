@@ -134,20 +134,27 @@ alias gd="git diff"
 alias gs="git status"
 
 export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
+export PATH="$HOME/bin:$PATH"
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 source ~/dotfiles/git-completion.bash
-export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/caleb/bin/google-cloud-sdk/path.bash.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/caleb/bin/google-cloud-sdk/completion.bash.inc'
+#export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
 
 #eval $(docker-machine env default)
 complete -C '/usr/local/bin/aws_completer' aws
 stty erase ^?
+
+# http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
+man() {
+    env \
+        LESS_TERMCAP_mb=$'\e[1;31m' \
+        LESS_TERMCAP_md=$'\e[1;31m' \
+        LESS_TERMCAP_me=$'\e[0m' \
+        LESS_TERMCAP_se=$'\e[0m' \
+        LESS_TERMCAP_so=$'\e[1;44;33m' \
+        LESS_TERMCAP_ue=$'\e[0m' \
+        LESS_TERMCAP_us=$'\e[1;32m' \
+            man "$@"
+}
 
 # This should always be run last either in .bashrc or as a script in .bashrc.d
 if [[ -z "$TMUX" ]]; then

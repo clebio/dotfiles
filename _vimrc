@@ -43,7 +43,7 @@ set enc=utf-8
 let NERDTreeQuitOnOpen = 1
 map <leader>n :NERDTreeToggle<CR>
 
-set mouse=a
+" set mouse=a
 
 " Backspace behavior
 set backspace=indent,eol,start
