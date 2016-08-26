@@ -41,8 +41,8 @@
   ;; For important compatibility libraries like cl-lib
   (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
+;(when (memq window-system '(mac ns))
+;  (exec-path-from-shell-initialize))
 (add-hook 'python-mode-hook 'jedi:setup)
 (setq jedi:complete-on-dot t)
 (require 'python-environment)
@@ -112,16 +112,30 @@
 ; don't show the menu bar
 (menu-bar-mode nil)
 ; number of characters until the fill column
-(setq fill-column 80)
+(setq fill-column 79)
 
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
  global-fci-mode fci-mode (lambda () (fci-mode 1)))
-;(global-fci-mode t)
+(global-fci-mode t)
+(setq fci-rule-width 1)
+(setq fci-rule-color "lightgrey")
+;(setq fci-rule-character-color "lightgrey")
+;(setq fci-rule-character ?|)
+
 (show-paren-mode 1) ; turn on paren match highlighting
 (setq show-paren-style 'expression) ; highlight entire bracket expression
 (column-number-mode 1) ; show cursor's column
 (global-visual-line-mode 1) ; 1 for on, 0 for off.
+
+;; Reverse colors for the border to have nicer line
+(set-face-inverse-video-p 'vertical-border nil)
+(set-face-background 'vertical-border (face-background 'default))
+
+;; Set symbol for the border
+; https://www.reddit.com/r/emacs/comments/3u0d0u/how_do_i_make_the_vertical_window_divider_more/cxbth2e
+(set-face-background 'vertical-border "gray")
+(set-face-foreground 'vertical-border (face-background 'vertical-border))
 
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -132,13 +146,14 @@
 ;; nuke trailing whitespaces when writing to a file
 (add-hook 'write-file-hooks 'delete-trailing-whitespace)
 
-;; display only tails of lines longer than 80 columns, tabs and
+;; display only tails of lines longer than X columns, tabs and
 ;; trailing whitespaces
-(setq whitespace-line-column 80
+(setq whitespace-line-column 79
       whitespace-style '(tabs trailing lines-tail))
 
 ;; activate minor whitespace mode when in python mode
 (add-hook 'python-mode-hook 'whitespace-mode)
+
 
 ;; don't make me write 'yes' to confirm
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -177,6 +192,9 @@
 (scroll-bar-mode nil)
 ; number of characters until the fill column
 (setq fill-column 80)
+
+; column indicator/marker
+;(require 'column-marker)
 
 (require 'auto-complete)
 (add-to-list 'auto-mode-alist '("\\.j2\\'" . jinja2-mode))
@@ -233,3 +251,6 @@
 (add-hook 'prog-mode-hook 'rainbow-delimiters-mode)
 
 (global-set-key (kbd "M-e") 'electric-indent-mode)
+
+(put 'upcase-region 'disabled nil)
+(global-set-key (kbd "M-u") 'upcase-region)

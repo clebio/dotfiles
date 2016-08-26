@@ -21,3 +21,6 @@ if [ -d "$HOME/bin" ] ; then
     PATH="$HOME/bin:$PATH"
 fi
 #xmodmap -e 'keycode 133 = F13'
+
+# added by Anaconda3 4.0.0 installer
+export PATH="/Users/caleb/anaconda/bin:$PATH"
