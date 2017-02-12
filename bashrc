@@ -1,6 +1,7 @@
 # ~/.bashrc: executed by bash(1) for non-login shells.
 # see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
 # for examples
+export CLICOLOR=1
 export TERM=xterm-256color
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
@@ -129,6 +130,7 @@ alias emacs='emacs -nw'
 alias wemacs='/usr/local/bin/emacs'
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
+alias nunit="mono ~/bin/nunit/nunit3-console.exe"
 
 alias gl="git log"
 alias gd="git diff"
@@ -139,10 +141,14 @@ export PATH="$HOME/bin:$PATH"
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 source ~/dotfiles/git-completion.bash
 #export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+export PATH=$PATH:/Library/Frameworks/Mono.framework/Versions/Current/bin
 
 #eval $(docker-machine env default)
 complete -C '/usr/local/bin/aws_completer' aws
 stty erase ^?
+
+#Android SDK
+export PATH=$PATH:~/Library/Android/sdk/platform-tools/
 
 # http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
 man() {
