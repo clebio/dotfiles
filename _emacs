@@ -113,11 +113,12 @@
 (menu-bar-mode nil)
 ; number of characters until the fill column
 (setq fill-column 79)
+(global-visual-line-mode 1)
 
 (load-file "~/.emacs.d/fill-column-indicator.el")
 (define-globalized-minor-mode
  global-fci-mode fci-mode (lambda () (fci-mode 1)))
-(global-fci-mode t)
+(global-fci-mode 0)
 (setq fci-rule-width 1)
 (setq fci-rule-color "lightgrey")
 ;(setq fci-rule-character-color "lightgrey")
@@ -189,7 +190,7 @@
 (require 'tool-bar)
 (tool-bar-mode nil)
 ; don't show the scroll bar
-(scroll-bar-mode nil)
+;(scroll-bar-mode nil)
 ; number of characters until the fill column
 (setq fill-column 80)
 
@@ -238,7 +239,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(jdee-compiler (quote ("javac")))
- '(jdee-global-classpath (quote ("." "~/dev/junit.jar" "~/dev/learning_java"))))
+ '(jdee-global-classpath (quote ("." "~/dev/junit.jar" "~/dev/learning_java")))
+ '(package-selected-packages
+   (quote
+    (jinja2-mode systemd csharp-mode docker docker-api docker-compose-mode dockerfile-mode terraform-mode zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters python-environment projectile paredit neotree markdown-mode magit jdee inf-ruby haskell-mode groovy-mode go-autocomplete gist expand-region deft coffee-mode clojure-mode auctex ansible-doc ansible))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -254,3 +258,22 @@
 
 (put 'upcase-region 'disabled nil)
 (global-set-key (kbd "M-u") 'upcase-region)
+
+;; macOS/tmux/emacs https://github.com/tmux/tmux/issues/475#issuecomment-233427207
+(defun pbcopy ()
+  (interactive)
+  (call-process-region (point) (mark) "pbcopy")
+  (setq deactivate-mark t))
+
+(defun pbpaste ()
+  (interactive)
+  (call-process-region (point) (if mark-active (mark) (point)) "pbpaste" t t))
+
+(defun pbcut ()
+  (interactive)
+  (pbcopy)
+  (delete-region (region-beginning) (region-end)))
+
+(global-set-key (kbd "C-c c") 'pbcopy)
+(global-set-key (kbd "C-c y") 'pbpaste)
+(global-set-key (kbd "C-c x") 'pbcut)
