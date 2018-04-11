@@ -242,7 +242,7 @@
  '(jdee-global-classpath (quote ("." "~/dev/junit.jar" "~/dev/learning_java")))
  '(package-selected-packages
    (quote
-    (jinja2-mode systemd csharp-mode docker docker-api docker-compose-mode dockerfile-mode terraform-mode zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters python-environment projectile paredit neotree markdown-mode magit jdee inf-ruby haskell-mode groovy-mode go-autocomplete gist expand-region deft coffee-mode clojure-mode auctex ansible-doc ansible))))
+    (fold-this virtualenv furl marmalade golint go-mode fuzzy idomenu iedit nose elpy color-theme jedi jinja2-mode systemd csharp-mode docker docker-api docker-compose-mode dockerfile-mode terraform-mode zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters python-environment projectile paredit neotree markdown-mode magit jdee inf-ruby haskell-mode groovy-mode go-autocomplete gist expand-region deft coffee-mode clojure-mode auctex ansible-doc ansible))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -277,3 +277,6 @@
 (global-set-key (kbd "C-c c") 'pbcopy)
 (global-set-key (kbd "C-c y") 'pbpaste)
 (global-set-key (kbd "C-c x") 'pbcut)
+
+(global-set-key (kbd "M-\\") 'comment-region)
+(global-set-key (kbd "M-|") 'uncomment-region)
