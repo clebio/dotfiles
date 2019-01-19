@@ -9,20 +9,27 @@
 ;; Set the PYTHONPATH based on a virtualenv (maybe?)
 (setenv "PYTHONPATH" (shell-command-to-string "find ${VIRTUAL_ENV} -name 'site-packages' | xargs echo -n"))
 
-;(require 'package)
-;(add-to-list 'package-archives
-;             '("melpa" . "http://melpa.milkbox.net/packages/") t)
-;(when (< emacs-major-version 24)
-;  ;; For important compatibility libraries like cl-lib
-;  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
-;(when (memq window-system '(mac ns))
-;  (exec-path-from-shell-initialize))
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
+;;(when (memq window-system '(mac ns))
+;;  (exec-path-from-shell-initialize))
 (package-initialize)
 
-;(elpy-enable)
+(elpy-enable)
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "http://melpa.milkbox.net/packages/") t)
+(package-initialize)
+
+
+;; Standard Jedi.el setting
 ;(add-hook 'python-mode-hook 'jedi:setup)
 ;(setq jedi:complete-on-dot t)
-;(require 'python-environment)
+(require 'python-environment)
 ; use IPython
 (setq python-shell-interpreter "ipython")
 (setq-default py-which-bufname "IPython")
@@ -40,9 +47,6 @@
 (setq ropemacs-enable-shortcuts nil)
 (setq ropemacs-local-prefix "C-c C-p")
 (setq ropemacs-enable-autoimport 't)
-(add-hook 'python-mode-hook 'jedi:setup)
-(setq jedi:complete-on-dot t)
-(require 'python-environment)
 ;; activate minor whitespace mode when in python mode
 (add-hook 'python-mode-hook 'whitespace-mode)
 (global-flycheck-mode)
@@ -238,7 +242,7 @@
  '(jdee-global-classpath (quote ("." "~/dev/junit.jar" "~/dev/learning_java")))
  '(package-selected-packages
    (quote
-    (use-package zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters pytest pylint pyimport pyfmt projectile paredit neotree mouse+ markdown-mode magit jinja2-mode jedi jdee javaimp javadoc-lookup java-snippets java-imports inf-ruby haskell-mode groovy-mode go-autocomplete gist flycheck-pyflakes fill-column-indicator expand-region ensime elpy dockerfile-mode docker django-mode deft column-marker coffee-mode clojure-mode auctex ansible-doc ansible))))
+    (jedi-direx flycheck-pycheckers osx-clipboard go-guru gotest go-playground jedi-core go-imports omnisharp use-package zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters pytest pylint pyimport pyfmt projectile paredit neotree mouse+ markdown-mode magit jinja2-mode jedi jdee javaimp javadoc-lookup java-snippets java-imports inf-ruby haskell-mode groovy-mode go-autocomplete gist flycheck-pyflakes fill-column-indicator expand-region ensime elpy dockerfile-mode docker django-mode deft column-marker coffee-mode clojure-mode auctex ansible-doc ansible go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -257,3 +261,71 @@
 
 ;; Scala
 (require 'sbt-mode)
+
+(defun paste-to-osx (text &optional push)
+  (interactive)
+  (let ((process-connection-type nil))
+    (let ((proc (start-process "pbcopy" "*Messages*" "pbcopy")))
+      (process-send-string proc text)
+      (process-send-eof proc))))
+
+
+;; golang
+(setq interprogram-cut-function 'paste-to-osx)
+;;(setq interprogram-paste-function 'copy-from-osx)
+
+(defun set-exec-path-from-shell-PATH ()
+  (let ((path-from-shell (replace-regexp-in-string
+                          "[ \t\n]*$"
+                          ""
+                          (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq eshell-path-env path-from-shell) ; for eshell users
+    (setq exec-path (split-string path-from-shell path-separator))))
+
+(when window-system (set-exec-path-from-shell-PATH))
+(setenv "GOPATH" "/Users/caleb/go")
+
+(add-to-list 'exec-path "/Users/tleyden/Development/gocode/bin")
+
+(defun auto-complete-for-go ()
+  (auto-complete-mode 1))
+(add-hook 'go-mode-hook 'auto-complete-for-go)
+
+(with-eval-after-load 'go-mode
+   (require 'go-autocomplete))
+
+;; Define function to call when go-mode loads
+(defun my-go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save) ; gofmt before every save
+  (setq gofmt-command "goimports")                ; gofmt uses invokes goimports
+  (if (not (string-match "go" compile-command))   ; set compile command default
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v"))
+
+  ;; guru settings
+  (go-guru-hl-identifier-mode)                    ; highlight identifiers
+
+  ;; Key bindings specific to go-mode
+  (local-set-key (kbd "M-.") 'godef-jump)         ; Go to definition
+  (local-set-key (kbd "M-*") 'pop-tag-mark)       ; Return from whence you came
+  (local-set-key (kbd "M-p") 'compile)            ; Invoke compiler
+  (local-set-key (kbd "M-P") 'recompile)          ; Redo most recent compile cmd
+  (local-set-key (kbd "M-]") 'next-error)         ; Go to next error (or msg)
+  (local-set-key (kbd "M-[") 'previous-error)     ; Go to previous error or msg
+
+  ;; Misc go stuff
+  (auto-complete-mode 1))                         ; Enable auto-complete mode
+
+;; Connect go-mode-hook with the function we just defined
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+
+;; Ensure the go specific autocomplete is active in go-mode.
+(with-eval-after-load 'go-mode
+   (require 'go-autocomplete)
+)
+(global-set-key (kbd "M-g p") 'go-playground)
+(global-set-key (kbd "M-p") 'go-playground-exec)
+
+(osx-clipboard-mode +1)

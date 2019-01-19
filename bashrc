@@ -118,7 +118,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-PATH=$PATH:/opt/vagrant/bin
+export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/go/bin
 
 export LC_ALL=en_US.UTF-8
@@ -141,14 +141,20 @@ export PATH="$HOME/bin:$PATH"
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 source ~/dotfiles/git-completion.bash
 #export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH=$PATH:/Library/Frameworks/Mono.framework/Versions/Current/bin
+export GOPATH=$HOME/go
+export PATH=$PATH:$(go env GOPATH)/bin
+
+# homebrew's texinfo
+export PATH=/usr/local/opt/texinfo/bin:$PATH
 
 #eval $(docker-machine env default)
 complete -C '/usr/local/bin/aws_completer' aws
 stty erase ^?
 
-#Android SDK
-export PATH=$PATH:~/Library/Android/sdk/platform-tools/
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/caleb/bin/google-cloud-sdk/path.bash.inc' ]; then source '/Users/caleb/bin/google-cloud-sdk/path.bash.inc'; fi
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/caleb/bin/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/caleb/bin/google-cloud-sdk/completion.bash.inc'; fi
 
 # http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
 man() {
