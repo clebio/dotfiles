@@ -1,5 +1,33 @@
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+export CLICOLOR=1
+export TERM=xterm-256color
+# If not running interactively, don't do anything
+[ -z "$PS1" ] && return
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=10000
+HISTFILESIZE=200000
+#HISTFILE="${HOME}/.history/$(date -u +%Y/%m/%d.%H.%M.%S)_$$"
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
 # make less more friendly for non-text input files, see lesspipe(1)
-#[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
 # set variable identifying the chroot you work in (used in the prompt below)
 if [ -z "$debian_chroot" ] && [ -r /etc/debian_chroot ]; then
@@ -90,7 +118,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 
-PATH=$PATH:/opt/vagrant/bin
+export PATH=$PATH:/usr/local/sbin
 export PATH=$PATH:/usr/local/go/bin
 
 export LC_ALL=en_US.UTF-8
@@ -100,6 +128,7 @@ export LANGUAGE=en_US.UTF-8
 alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe >& /dev/null &'
 alias emacs='emacs -nw'
 alias wemacs='/usr/local/bin/emacs'
+alias ekill="emacsclient -e '(kill-emacs)'"
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias nunit="mono ~/bin/nunit/nunit3-console.exe"
@@ -158,14 +187,19 @@ man() {
 export JAVA_HOME=$(/usr/libexec/java_home)
 export PATH=$(brew --prefix openssl)/bin:$PATH
 export PATH=$PATH:~/go/bin
+export PATH="/usr/local/opt/texinfo/bin:$PATH"
 
 ## https://unix.stackexchange.com/a/1292 (or https://askubuntu.com/a/339925)
 # Avoid duplicates
-export HISTCONTROL=ignoredups:erasedups  
+export HISTCONTROL=ignoredups:erasedups
 # When the shell exits, append to the history file instead of overwriting it
 shopt -s histappend
 # After each command, append to the history file and reread it
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+export EDITOR=e
+eval "$(pyenv init -)"
+pyenv shell 2.7.15
 
 if [[ -z "$TMUX" ]]; then
     tmux has-session &> /dev/null
