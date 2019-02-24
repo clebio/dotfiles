@@ -242,7 +242,7 @@
  '(jdee-global-classpath (quote ("." "~/dev/junit.jar" "~/dev/learning_java")))
  '(package-selected-packages
    (quote
-    (jedi-direx flycheck-pycheckers osx-clipboard go-guru gotest go-playground jedi-core go-imports omnisharp use-package zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters pytest pylint pyimport pyfmt projectile paredit neotree mouse+ markdown-mode magit jinja2-mode jedi jdee javaimp javadoc-lookup java-snippets java-imports inf-ruby haskell-mode groovy-mode go-autocomplete gist flycheck-pyflakes fill-column-indicator expand-region ensime elpy dockerfile-mode docker django-mode deft column-marker coffee-mode clojure-mode auctex ansible-doc ansible go-mode))))
+    (company company-terraform terraform-mode jedi-direx flycheck-pycheckers osx-clipboard go-guru gotest go-playground jedi-core go-imports omnisharp use-package zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters pytest pylint pyimport pyfmt projectile paredit neotree mouse+ markdown-mode magit jinja2-mode jedi jdee javaimp javadoc-lookup java-snippets java-imports inf-ruby haskell-mode groovy-mode go-autocomplete gist flycheck-pyflakes fill-column-indicator expand-region ensime elpy dockerfile-mode docker django-mode deft column-marker coffee-mode clojure-mode auctex ansible-doc ansible go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -320,6 +320,9 @@
 ;; Connect go-mode-hook with the function we just defined
 (add-hook 'go-mode-hook 'my-go-mode-hook)
 
+(require 'company-terraform)
+(company-terraform-init)
+(add-hook 'after-init-hook 'global-company-mode)
 
 ;; Ensure the go specific autocomplete is active in go-mode.
 (with-eval-after-load 'go-mode
@@ -327,5 +330,5 @@
 )
 (global-set-key (kbd "M-g p") 'go-playground)
 (global-set-key (kbd "M-p") 'go-playground-exec)
-
+(global-set-key (kbd "M-=") "\C-[xalign-regexp\C-m=\C-m")
 (osx-clipboard-mode +1)
