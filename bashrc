@@ -128,6 +128,7 @@ export LANGUAGE=en_US.UTF-8
 alias winefox='wine /home/caleb/.wine/drive_c/Program\ Files\ \(x86\)/Mozilla\ Firefox/firefox.exe >& /dev/null &'
 alias emacs='emacs -nw'
 alias wemacs='/usr/local/bin/emacs'
+alias ekill="emacsclient -e '(kill-emacs)'"
 alias svag='ssh -X -p 2222 localhost'
 alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 alias nunit="mono ~/bin/nunit/nunit3-console.exe"
@@ -136,23 +137,26 @@ alias gl="git log"
 alias gd="git diff"
 alias gs="git status"
 
+alias gobug='dlv debug --headless --listen=:2345 --log'
+
 export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
 export PATH="$HOME/bin:$PATH"
 source /usr/local/bin/virtualenvwrapper_lazy.sh
 source ~/dotfiles/git-completion.bash
 #export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export GOPATH=$HOME/go
-export PATH=$PATH:$(go env GOPATH)/bin
-
-# homebrew's texinfo
-export PATH=/usr/local/opt/texinfo/bin:$PATH
-
+export PATH=$PATH:/Library/Frameworks/Mono.framework/Versions/Current/bin
+export PATH="/usr/local/Cellar/python3/3.6.2/bin:/usr/local/Cellar/python/2.7.13_1/bin:$PATH"
 #eval $(docker-machine env default)
 complete -C '/usr/local/bin/aws_completer' aws
 stty erase ^?
 
+#Android SDK
+export PATH=$PATH:~/Library/Android/sdk/platform-tools/
+export AWS_DEFAULT_PROFILE=default
+
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/caleb/bin/google-cloud-sdk/path.bash.inc' ]; then source '/Users/caleb/bin/google-cloud-sdk/path.bash.inc'; fi
+
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/caleb/bin/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/caleb/bin/google-cloud-sdk/completion.bash.inc'; fi
 
@@ -169,12 +173,38 @@ man() {
             man "$@"
 }
 
+# added by travis gem
+#[ -f /Users/caleb/.travis/travis.sh ] && source /Users/caleb/.travis/travis.sh
+
+# tabtab source for serverless package
+# uninstall by removing these lines or running `tabtab uninstall serverless`
+#[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash ] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/serverless.bash
+# tabtab source for sls package
+# uninstall by removing these lines or running `tabtab uninstall sls`
+#[ -f /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash ] && . /usr/local/lib/node_modules/serverless/node_modules/tabtab/.completions/sls.bash
 # This should always be run last either in .bashrc or as a script in .bashrc.d
+
+export JAVA_HOME=$(/usr/libexec/java_home)
+export PATH=$(brew --prefix openssl)/bin:$PATH
+export PATH=$PATH:~/go/bin
+export PATH="/usr/local/opt/texinfo/bin:$PATH"
+
+## https://unix.stackexchange.com/a/1292 (or https://askubuntu.com/a/339925)
+# Avoid duplicates
+export HISTCONTROL=ignoredups:erasedups
+# When the shell exits, append to the history file instead of overwriting it
+shopt -s histappend
+# After each command, append to the history file and reread it
+export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
+export EDITOR=e
+eval "$(pyenv init -)"
+pyenv shell 2.7.15
+
 if [[ -z "$TMUX" ]]; then
     tmux has-session &> /dev/null
     if [ $? -eq 1 ]; then
       exec tmux -2 new
-
       exit
     else
       exec tmux attach

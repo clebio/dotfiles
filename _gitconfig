@@ -32,6 +32,9 @@
   autocrlf = false
   editor = vim
   excludesfile = ~/dotfiles/gitignore
+	trustctime = false
+	whitespace = all
+	hooksPath = /Users/caleb/.commithooks/
 [advice]
   statusHints = false
 [diff]
@@ -40,6 +43,7 @@
   mnemonicprefix = true
   tool = emerge
   algorithm = patience
+	wsErrorHighlight = all
 [rerere]
   # Remember my merges
   # http://gitfu.wordpress.com/2008/04/20/git-rerere-rereremember-what-you-did-last-time/
@@ -53,3 +57,5 @@
 	required = true
 [credential]
 	helper = cache --timeout=3600
+[include]
+    path = ~/.gitconfig.local

@@ -75,6 +75,8 @@
 ;; Magit (http://magit.vc/)
 (global-set-key (kbd "C-x g") 'magit-status)
 (global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
+(setq magit-diff-paint-whitespace-lines t)
+(setq magit-diff-highlight-trailing t)
 
 ;; Define new 'next/previous-buffer' commands that skip the
 ;; *Asterisk* buffers
@@ -110,7 +112,8 @@
 ;(require 'quack)
 ;(autoload 'markdown-mode "~/.emacs.d/markdown-mode/markdown-mode.el" "Major mode for editing Markdown files" t)
 (setq auto-mode-alist (cons '("\\.md" . markdown-mode) auto-mode-alist))
-
+;; brew install pandoc
+(setq markdown-command "/usr/local/bin/pandoc")
 (setq skeleton-pair nil)
 
 ;; http://www.jesshamrick.com/2012/09/18/emacs-as-a-python-ide/
@@ -156,8 +159,10 @@
 (setq whitespace-line-column 79
       whitespace-style '(tabs trailing lines-tail))
 
-(global-set-key (kbd "M-p") 'flycheck-previous-error)
-(global-set-key (kbd "M-n") 'flycheck-next-error)
+;(global-set-key (kbd "M-p") 'flycheck-previous-error)
+;(global-set-key (kbd "M-n") 'flycheck-next-error)
+(global-set-key (kbd "M-p") 'flymake-goto-prev-error)
+(global-set-key (kbd "M-n") 'flymake-goto-next-error)
 
 ;; don't make me write 'yes' to confirm
 (defalias 'yes-or-no-p 'y-or-n-p)
@@ -190,8 +195,6 @@
 ; don't show the tool bar
 (require 'tool-bar)
 (tool-bar-mode nil)
-; don't show the scroll bar
-(scroll-bar-mode nil)
 ; number of characters until the fill column
 ;(setq fill-column 80)
 
@@ -242,7 +245,7 @@
  '(jdee-global-classpath (quote ("." "~/dev/junit.jar" "~/dev/learning_java")))
  '(package-selected-packages
    (quote
-    (company company-terraform terraform-mode jedi-direx flycheck-pycheckers osx-clipboard go-guru gotest go-playground jedi-core go-imports omnisharp use-package zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters pytest pylint pyimport pyfmt projectile paredit neotree mouse+ markdown-mode magit jinja2-mode jedi jdee javaimp javadoc-lookup java-snippets java-imports inf-ruby haskell-mode groovy-mode go-autocomplete gist flycheck-pyflakes fill-column-indicator expand-region ensime elpy dockerfile-mode docker django-mode deft column-marker coffee-mode clojure-mode auctex ansible-doc ansible go-mode))))
+    (diminish ivy discover yafolding powershell company-terraform flycheck-color-mode-line flycheck-demjsonlint flycheck-golangci-lint flycheck-gometalinter flycheck-gradle jedi-direx flycheck-pycheckers osx-clipboard go-guru gotest go-playground go-imports omnisharp use-package zenburn-theme yari yaml-mode volatile-highlights virtualenvwrapper vagrant-tramp vagrant solarized-theme scss-mode sass-mode rainbow-mode rainbow-delimiters pytest pylint pyimport pyfmt projectile paredit neotree mouse+ markdown-mode magit jinja2-mode jdee javaimp javadoc-lookup java-snippets java-imports inf-ruby haskell-mode groovy-mode go-autocomplete gist flycheck-pyflakes fill-column-indicator expand-region ensime elpy dockerfile-mode docker django-mode deft column-marker coffee-mode clojure-mode auctex ansible-doc ansible go-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -332,3 +335,54 @@
 (global-set-key (kbd "M-p") 'go-playground-exec)
 (global-set-key (kbd "M-=") "\C-[xalign-regexp\C-m=\C-m")
 (osx-clipboard-mode +1)
+; (defadvice align-regexp (around align-regexp-with-spaces)
+;   "Never use tabs for alignment."
+; )
+;(ad-activate 'align-regexp)
+
+(global-set-key (kbd "M-=") "\C-[xalign-regexp\C-m=\C-m")
+(global-set-key (kbd "M-\\") 'comment-region)
+(global-set-key (kbd "M-|") 'uncomment-region)
+
+;; https://www.emacswiki.org/emacs/BackupDirectory
+(setq backup-directory-alist
+          `((".*" . ,temporary-file-directory)))
+    (setq auto-save-file-name-transforms
+          `((".*" ,temporary-file-directory t)))
+
+(message "Deleting old backup files...")
+(let ((week (* 60 60 24 7))
+      (current (float-time (current-time))))
+  (dolist (file (directory-files temporary-file-directory t))
+    (when (and (backup-file-name-p file)
+               (> (- current (float-time (nth 5 (file-attributes file))))
+                  week))
+      (message "%s" file)
+      (delete-file file))))
+
+(require 'company-terraform)
+(company-terraform-init)
+(add-hook 'after-init-hook 'global-company-mode)
+
+(define-skeleton tf-var
+  "Insert a terraform variable with defaults"
+  "Insert terraform variable named: "
+  "variable \"" str "\" {\n"
+  "  description = \""   "\"\n"
+  "  default = \"\"\n"
+  "  type = \"\"\n"
+  "}\n")
+(add-hook 'terraform-mode-hook '(lambda () (local-set-key (kbd "C-c v") 'tf-var)))
+
+(global-set-key (kbd "M-/") (kbd "\C-x k\C-m"))
+
+(require 'discover)
+(global-discover-mode 1)
+(global-set-key (kbd "C-c w") 'yafolding-discover)
+(define-key yafolding-mode-map (kbd "C-c C-f") 'yafolding-toggle-element)
+
+(setq which-key-mode 1)
+;(ivy-mode 1)
+
+(provide 'emacs)
+;;; emacs ends here
