@@ -1,3 +1,8 @@
+; -*-Lisp-*-
+
+(setq spacemacs-start-directory "~/.emacs.d/spacemacs/")
+(load-file (concat spacemacs-start-directory "init.el"))
+
 ;; ESS (Emacs Speaks Statistics, for R integration)
 ;; http://ess.r-project.org/index.php?Section=home
 ;(require 'ess-site)
@@ -9,6 +14,7 @@
 ;; Set the PYTHONPATH based on a virtualenv (maybe?)
 (setenv "PYTHONPATH" (shell-command-to-string "find ${VIRTUAL_ENV} -name 'site-packages' | xargs echo -n"))
 
+;(require 'company)                                   ; load company mode
 (require 'package)
 (add-to-list 'package-archives
              '("melpa" . "http://melpa.milkbox.net/packages/") t)
@@ -145,9 +151,9 @@
 (set-face-background 'vertical-border "gray")
 (set-face-foreground 'vertical-border (face-background 'vertical-border))
 
-(setq ido-enable-flex-matching t)
-(setq ido-everywhere t)
-(ido-mode 1)
+;(setq ido-enable-flex-matching t)
+;(setq ido-everywhere t)
+;(ido-mode 1)
 (setq-default word-wrap t)
 
 ;http://ruslanspivak.com/2010/09/27/keep-track-of-whitespaces-and-column-80-overflow/
@@ -263,7 +269,7 @@
 (global-set-key (kbd "M-u") 'upcase-region)
 
 ;; Scala
-(require 'sbt-mode)
+;(require 'sbt-mode)
 
 (defun paste-to-osx (text &optional push)
   (interactive)
@@ -277,6 +283,8 @@
 (setq interprogram-cut-function 'paste-to-osx)
 ;;(setq interprogram-paste-function 'copy-from-osx)
 
+(require 'company-go)                                ; load company mode go backend
+
 (defun set-exec-path-from-shell-PATH ()
   (let ((path-from-shell (replace-regexp-in-string
                           "[ \t\n]*$"
@@ -287,16 +295,43 @@
     (setq exec-path (split-string path-from-shell path-separator))))
 
 (when window-system (set-exec-path-from-shell-PATH))
-(setenv "GOPATH" "/Users/caleb/go")
 
+;; golang
+;; http://tleyden.github.io/blog/2014/05/22/configure-emacs-as-a-go-editor-from-scratch/
+(setenv "GOPATH" "/Users/caleb/go")
 (add-to-list 'exec-path "/Users/tleyden/Development/gocode/bin")
+
+(dap-mode 1)
+(dap-ui-mode 1)
+
+;; enables mouse hover support
+(dap-tooltip-mode 1)
+;; use tooltips for mouse hover
+;; if it is not enabled `dap-mode' will use the minibuffer.
+(tooltip-mode 1)
+
+(require 'dap-go)
+(dap-go-setup)
 
 (defun auto-complete-for-go ()
   (auto-complete-mode 1))
 (add-hook 'go-mode-hook 'auto-complete-for-go)
+(add-hook 'go-mode-hook '(go-dlv))
 
 (with-eval-after-load 'go-mode
    (require 'go-autocomplete))
+
+(defun build-go ()
+  ; Call Gofmt before saving
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  ; Customize compile command to run go build
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet"))
+  ; Godef jump key binding
+  (local-set-key (kbd "M-.") 'godef-jump)
+  (local-set-key (kbd "M-*") 'pop-tag-mark)
+)
 
 ;; Define function to call when go-mode loads
 (defun my-go-mode-hook ()
@@ -331,8 +366,12 @@
 (with-eval-after-load 'go-mode
    (require 'go-autocomplete)
 )
+
 (global-set-key (kbd "M-g p") 'go-playground)
 (global-set-key (kbd "M-p") 'go-playground-exec)
+
+;; end golang
+
 (global-set-key (kbd "M-=") "\C-[xalign-regexp\C-m=\C-m")
 (osx-clipboard-mode +1)
 ; (defadvice align-regexp (around align-regexp-with-spaces)
