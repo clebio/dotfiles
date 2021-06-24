@@ -25,12 +25,16 @@
         RED="\[\033[0;31m\]"
      YELLOW="\[\033[1;33m\]"
       GREEN="\[\033[0;32m\]"
-       BLUE="\[\033[1;34m\]"
-  LIGHT_RED="\[\033[1;31m\]"
-LIGHT_GREEN="\[\033[1;32m\]"
-      WHITE="\[\033[1;37m\]"
+       BLUE="\[\033[0;34m\]"
+  LIGHT_RED="\[\033[0;31m\]"
+LIGHT_GREEN="\[\033[0;32m\]"
+      WHITE="\[\033[0;37m\]"
  LIGHT_GRAY="\[\033[0;37m\]"
  COLOR_NONE="\[\e[0m\]"
+
+# https://getemoji.com/
+EMOJIS=(🐈 🐈 🏖 🏝 🏜 🌋 ⛰ 🏔 🗻 🏕 ⛺️ 🐬 🐳 🐋 🦈 🌞 🌝 🌛 🌜 🌚 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 🌙 🌎 🌍 🌏 🥐 🥓 🍩 🍪 🧐 🐕 😺 😸 😻 😼)
+FAILBOWL=(🙁 🥺 😭 😡 🤬 😱 😨 😰 🤢 🤮 🔥 🌪 ⛈ 🌩 ❌ 💩 🗑️)
 
 # Detect whether the current directory is a git repository.
 function is_git_repository {
@@ -81,9 +85,10 @@ function set_git_branch {
 # previous command.
 function set_prompt_symbol () {
   if test $1 -eq 0 ; then
-      PROMPT_SYMBOL="\$"
+      PROMPT_SYMBOL="${EMOJIS[$RANDOM % ${#EMOJIS[@]}]} \$"
   else
-      PROMPT_SYMBOL="${LIGHT_RED}\$${COLOR_NONE}"
+      PROMPT_SYMBOL="${FAILBOWL[$RANDOM % ${#FAILBOWL[@]}]} \$"
+      # PROMPT_SYMBOL=$(printf "\xf0\x9f\x99\x81 \$")"
   fi
 }
 
@@ -113,7 +118,8 @@ function set_bash_prompt () {
   fi
 
   # Set the bash prompt variable.
-  PS1="${PYTHON_VIRTUALENV}${GREEN}\u@\h ${YELLOW}\w${COLOR_NONE} ${BRANCH}\n${PROMPT_SYMBOL} "
+  history -a; history -c; history -r
+  PS1="${PYTHON_VIRTUALENV}${GREEN}\u on ${BLUE}\h ${YELLOW}\w${COLOR_NONE} ${BRANCH}\n${PROMPT_SYMBOL} "
 }
 
 # Tell bash to execute this function just before displaying its prompt.
