@@ -1,5 +1,11 @@
 # set your user tokens as environment variables, such as ~/.secrets
 # See the README for examples.
+[gpg]
+  format = ssh
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+[commit]
+  gpgsign = true
 [color]
   ui = true
 [color "branch"]
@@ -29,7 +35,7 @@
   # the usual default is to push all branches
   default = tracking
 [core]
-  autocrlf = false
+	autocrlf = input
   editor = vim
   excludesfile = ~/dotfiles/gitignore
 	trustctime = false
