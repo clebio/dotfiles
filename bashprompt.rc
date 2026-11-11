@@ -33,8 +33,8 @@ LIGHT_GREEN="\[\033[0;32m\]"
  COLOR_NONE="\[\e[0m\]"
 
 # https://getemoji.com/
-EMOJIS=(🐈 🐈 🏖 🏝 🏜 🌋 ⛰ 🏔 🗻 🏕 ⛺️ 🐬 🐳 🐋 🦈 🌞 🌝 🌛 🌜 🌚 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 🌙 🌎 🌍 🌏 🥐 🥓 🍩 🍪 🧐 🐕 😺 😸 😻 😼)
-FAILBOWL=(🙁 🥺 😭 😡 🤬 😱 😨 😰 🤢 🤮 🔥 🌪 ⛈ 🌩 ❌ 💩 🗑️)
+EMOJIS=(🐈 🐈 🏖 🏝 🏜 🌋 ⛰  🏔 🗻 🏕 ⛺️ 🐬 🐳 🐋 🦈 🌞 🌝 🌛 🌜 🌚 🌕 🌖 🌗 🌘 🌑 🌒 🌓 🌔 🌙 🌎 🌍 🌏 🥐 🥓 🍩 🍪 🧐 🐕 😺 😸 😻 😼)
+FAILBOWL=(🙁 🥺 😭 😡 🤬 😱 😨 😰 🤢 🤮 🔥 🌪 ⛈  🌩 ❌ 💩 🗑️)
 
 # Detect whether the current directory is a git repository.
 function is_git_repository {
@@ -119,7 +119,7 @@ function set_bash_prompt () {
 
   # Set the bash prompt variable.
   history -a; history -c; history -r
-  PS1="${PYTHON_VIRTUALENV}${GREEN}\u on ${BLUE}\h ${YELLOW}\w${COLOR_NONE} ${BRANCH}\n${PROMPT_SYMBOL} "
+  PS1="${PROMPT_SYMBOL} ${PYTHON_VIRTUALENV}${GREEN}\u on ${BLUE}\h ${YELLOW}\w${COLOR_NONE} ${BRANCH}\n$ "
 }
 
 # Tell bash to execute this function just before displaying its prompt.

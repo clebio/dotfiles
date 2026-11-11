@@ -75,6 +75,7 @@ esac
 if [ -f ~/.bashprompt.rc ]; then
     source ~/.bashprompt.rc
 fi
+
 if [ -f ~/.git-completion.bash ]; then
    source ~/.git-completion.bash
 fi
@@ -119,7 +120,12 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
 fi
 
 export PATH=$PATH:/usr/local/sbin
-export PATH=$PATH:/usr/local/go/bin
+
+if [[ -d /usr/local/go/bin ]]
+then
+    export PATH=$PATH:/usr/local/go/bin
+    export PATH=$PATH:$(go env GOPATH)/bin
+fi
 
 export LC_ALL=en_US.UTF-8
 export LANG=en_US.UTF-8
@@ -137,29 +143,17 @@ then
     alias lg="git log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
     alias gl="git log"
     alias gd="git diff"
-    alias gs="git status"
-    alias gt="git tag -l --format='%(refname:strip=2) -- %(subject)'"
+    alias ga="git status"
+    alias gt="git tag -l --format='%(color:yellow)%(refname:strip=2) %(color:blue)%(subject)'"
 fi
 
 alias gobug='dlv debug --headless --listen=:2345 --log'
 
-export PATH="$HOME/.rvm/bin:$PATH" # Add RVM to PATH for scripting
-export PATH="$HOME/bin:$PATH"
-#export PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
-export PATH=$PATH:/Library/Frameworks/Mono.framework/Versions/Current/bin
-export PATH="/usr/local/Cellar/python3/3.6.2/bin:/usr/local/Cellar/python/2.7.13_1/bin:$PATH"
-#eval $(docker-machine env default)
-complete -C '/usr/local/bin/aws_completer' aws
+if command -v aws_completer; then complete -C '/usr/local/bin/aws_completer' aws; fi
+
 stty erase ^?
 
-#Android SDK
-export PATH=$PATH:~/Library/Android/sdk/platform-tools/
-export AWS_DEFAULT_PROFILE=default
-
-# The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/caleb/bin/google-cloud-sdk/path.bash.inc' ]; then source '/Users/caleb/bin/google-cloud-sdk/path.bash.inc'; fi
-
-# The next line enables shell command completion for gcloud.
 if [ -f '/Users/caleb/bin/google-cloud-sdk/completion.bash.inc' ]; then source '/Users/caleb/bin/google-cloud-sdk/completion.bash.inc'; fi
 
 # http://boredzo.org/blog/archives/2016-08-15/colorized-man-pages-understood-and-customized
@@ -182,5 +176,67 @@ export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 # After each command, append to the history file and reread it
 export PROMPT_COMMAND="${PROMPT_COMMAND:+$PROMPT_COMMAND$'\n'}history -a; history -c; history -r"
+
 export PATH=$PATH:${HOME}/.local/bin
-source /home/caleb/.rvm/scripts/rvm
+
+if command -v ${HOME}/.rvm/bin/rvm > /dev/null ;
+then 
+    export PATH=$PATH:$HOME/.rvm/bin
+    source /home/caleb/.rvm/scripts/rvm;
+fi
+
+if [[ ! -e DOCKER_HOST ]] && command -v podman > /dev/null
+    # https://github.com/nektos/act/issues/303#issuecomment-882069025
+then
+    systemctl enable --now --user podman.socket
+    systemctl start --user podman.socket
+    export DOCKER_HOST=unix://$XDG_RUNTIME_DIR/podman/podman.sock
+fi
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+. "$HOME/.cargo/env"
+
+
+# pnpm
+export PNPM_HOME="/home/caleb/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME:"*) ;;
+  *) export PATH="$PNPM_HOME:$PATH" ;;
+esac
+# pnpm end
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/caleb/miniforge3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/caleb/miniforge3/etc/profile.d/conda.sh" ]; then
+        . "/home/caleb/miniforge3/etc/profile.d/conda.sh"
+    else
+        export PATH="$PATH:/home/caleb/miniforge3/bin"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+# >>> mamba initialize >>>
+# !! Contents within this block are managed by 'mamba shell init' !!
+export MAMBA_EXE='/home/caleb/miniforge3/bin/mamba';
+export MAMBA_ROOT_PREFIX='/home/caleb/miniforge3';
+__mamba_setup="$("$MAMBA_EXE" shell hook --shell bash --root-prefix "$MAMBA_ROOT_PREFIX" 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__mamba_setup"
+else
+    alias mamba="$MAMBA_EXE"  # Fallback on help from mamba activate
+fi
+unset __mamba_setup
+# <<< mamba initialize <<<
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+
